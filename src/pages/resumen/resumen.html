@@ -1,0 +1,70 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="first" >
+      <button  ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>
+        <img src="assets/img/first-logo.png"/>
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  
+<ion-content>
+    <ion-list padding class="booking-info">
+      <ion-item>
+        <span class="label" ion-text color="secondary" >ORIGEN</span>
+        <div class="italic">Aeroparque Jorge Newbery</div>
+      </ion-item>
+      <ion-item>
+        <span class="label" ion-text color="secondary" >DESTINO</span>
+        <div class="italic">San Isidro, Buenos Aires, Argentina</div>
+      </ion-item>
+      <ion-item>
+        <span class="label" ion-text>CON REG.</span>
+        <div item-end><img style="height:20px" src="assets/img/auto-normal.png" /></div>
+      </ion-item>
+      <ion-item>
+        <div (click)="choosePaymentMethod()">
+          <div>FORMA DE PAGO</div>
+          <span class="bold">Efectivo</span>
+        </div>
+        <ion-icon name="md-arrow-dropright" item-right></ion-icon>
+      </ion-item>
+      <ion-item class="button-set">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <button ion-button small class="active" block padding>lo quiero ahora</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button small block>reserva a futuro</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item (click)="showNotePopup()">
+        <span class="italic" ion-text color="dark">MENSAJE AL CONDUCTOR</span>
+        <ion-icon name="md-arrow-dropright" item-right></ion-icon>
+      </ion-item>
+      <ion-item>
+          <span class="italic" ion-text color="danger"><b>40</b> KM.</span>
+          <span class="italic" ion-text item-end color="danger"><b>45</b> MIN.</span>
+      </ion-item>
+      <ion-item>
+          <span class="italic" ion-text color="dark">IMPORTE ESTIMADO</span>
+          <span ion-text item-end color="danger"><b>100.00</b></span>
+      </ion-item>
+      <ion-item>
+        <span class="italic" ion-text color="dark">COSTO DE LA ESPERA</span>
+        <span ion-text item-end color="danger"><b>5.00</b> x MIN.</span>
+      </ion-item>
+      <button  ion-button color="first" block>RESERVAR</button>
+    </ion-list>
+</ion-content>
