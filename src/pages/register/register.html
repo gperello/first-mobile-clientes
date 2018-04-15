@@ -16,9 +16,9 @@
           <i class="icon-sedan" ion-text color="light" ></i>
         </div>
         <h2 ion-text color="dark" >
-          ionic 2 Taxi
+          First SRL
         </h2>
-        <p ion-text color="dark" >Taxi booking app for ionic 2</p>
+        <p ion-text color="dark" >Servicio de transporte de personas</p>
       </div>
 
       <!-- Login form -->
@@ -26,7 +26,7 @@
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" placeholder="Your name"></ion-input>
+          <ion-input type="text" placeholder="Nombre y Apellido"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -34,14 +34,22 @@
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Password"></ion-input>
+          <ion-input type="text" placeholder="Telefono"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Contraseña"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Rep. Contraseña"></ion-input>
         </ion-item>
 
       </ion-list>
 
       <div padding>
         <button  ion-button color="primary"  block (click)="signup()">
-          Create account
+          Registrarse
         </button>
       </div>
 
@@ -53,12 +61,12 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <span ion-text color="light" >Forgot password?</span>
+          <span ion-text color="primary" >Olvido su contraseña?</span>
         </ion-col>
         <ion-col>
           <span ion-text color="light" >
-            Have account?
-            <span ion-text color="primary"  (click)="login()">Login</span>
+            Ya tiene cuenta?
+            <span ion-text color="primary"  (click)="login()">Iniciar Sesión</span>
           </span>
         </ion-col>
       </ion-row>
