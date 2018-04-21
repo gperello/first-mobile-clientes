@@ -15,23 +15,24 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
+        <p ion-text color="first1" >Validacion de Telefono</p>
       </div>
 
       <!-- Login form -->
-
+      <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
       <ion-item>
-          <ion-input type="text" placeholder="Telefono"></ion-input>
+          <ion-input type="text" required minlength="8" maxlength="20" placeholder="Telefono"  [(ngModel)]="telefono"></ion-input>
         </ion-item>
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1"  block (click)="signup()">
+        <button  ion-button color="first1" block (click)="enviarcodigo()" [disabled]="!loginForm.form.valid">
           enviar codigo de validacion
         </button>
       </div>
-
+    </form>
     </div>
 
     <!-- Other links -->

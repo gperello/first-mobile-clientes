@@ -16,28 +16,29 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
+        <p ion-text color="first1" >inicio de sesión</p>
       </div>
 
       <!-- Login form -->
-
+    <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" placeholder="Email o Telefono"></ion-input>
+          <ion-input type="text" required  minlength="6" maxlength="100" placeholder="Email o Telefono" [(ngModel)]="username"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Contraseña"></ion-input>
+          <ion-input type="password" required minlength="6" maxlength="20" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
         </ion-item>
 
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1" block (click)="login()">
+        <button  ion-button color="first1" block (click)="login()" [disabled]="!loginForm.form.valid">
           Iniciar Sesión
         </button>
       </div>
-
+    </form>
     </div>
 
     <div padding=""></div>
@@ -46,7 +47,7 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <span ion-text color="first1" >olvidó su contraseña?</span>
+          <span ion-text color="first1" (click)="changepassword()">olvidó su contraseña?</span>
         </ion-col>
         <ion-col>
           <span ion-text color="light" >

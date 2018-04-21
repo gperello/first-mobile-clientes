@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from '../login/login';
 import {HomePage} from "../home/home";
+import { CambiarClavePage } from '../cambiar.clave/cambiar.clave';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 /*
  Generated class for the RegisterPage page.
@@ -14,11 +16,16 @@ import {HomePage} from "../home/home";
   templateUrl: 'enviar.codigo.html'
 })
 export class EnviarCodigoPage {
-  constructor(public nav:NavController) {
+  telefono:string;
+  codigo:string
+  constructor(public nav:NavController, private params:NavParams,private socialSharing: SocialSharing) {
+        this.codigo = this.params.data.Token;
+        this.telefono = this.params.data.Telefono;
   }
 
-  signup() {
-    this.nav.setRoot(HomePage);
+  enviarcodigo() {
+    this.socialSharing.shareViaSMS("Su Codigo FIRST: " + this.codigo, this.telefono);
+    this.nav.push(CambiarClavePage);
   }
 
   login() {

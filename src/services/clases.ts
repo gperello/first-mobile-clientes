@@ -1,14 +1,13 @@
 export class Usuario {
 
     public UsuarioId:number 
-    public MovilId:number
-    public NumeroMovil:number 
-    public NombreUsuario:string
-    public SucursalId:number
-    public EstadoId:number
-    public Estado:string 
+    public ClienteId:number
+    public ClienteNombre:string 
+    public Nombre:string
     public Telefono:string
     public Email:string
+    public Password:string
+    public RepPassword:string
 }
 export class ViajeList
     {

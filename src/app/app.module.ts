@@ -22,12 +22,14 @@ import {FormaDePagoPage} from '../pages/formadepago/formadepago';
 import {MapaViajePage} from '../pages/mapaviaje/mapaviaje';
 import {GenerarCodigoPage} from '../pages/generar.codigo/generar.codigo';
 import {EnviarCodigoPage} from '../pages/enviar.codigo/enviar.codigo';
-import {CmabiarClavePage} from '../pages/cambiar.clave/cambiar.clave';
+import {CambiarClavePage} from '../pages/cambiar.clave/cambiar.clave';
 import {BaseService} from '../services/base.service';
 import {CustomServices} from '../services/custom.services';
 import {PushNotificationService} from '../services/push.notification';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Push } from '@ionic-native/push';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 
 // end import pages
 
@@ -47,7 +49,7 @@ import { Push } from '@ionic-native/push';
     MapaViajePage,
     GenerarCodigoPage,
     EnviarCodigoPage,
-    CmabiarClavePage,
+    CambiarClavePage,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,7 @@ import { Push } from '@ionic-native/push';
     MapaViajePage,
     GenerarCodigoPage,
     EnviarCodigoPage,
-    CmabiarClavePage,
+    CambiarClavePage,
   ],
   providers: [
     StatusBar,
@@ -83,6 +85,7 @@ import { Push } from '@ionic-native/push';
     HttpClient, 
     Geolocation, 
     Push,
+    SocialSharing,
   ]
 })
 export class AppModule {

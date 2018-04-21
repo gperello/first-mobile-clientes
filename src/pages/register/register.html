@@ -15,31 +15,32 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
+        <p ion-text color="first1" >reigistro de usuario</p>
       </div>
 
       <!-- Login form -->
-
+      <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" placeholder="Nombre y Apellido"></ion-input>
+          <ion-input type="text" required minlength="6" maxlength="100" placeholder="Nombre y Apellido" [(ngModel)]="User.Nombre"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" placeholder="Email"></ion-input>
+          <ion-input type="text" required minlength="6" maxlength="100" placeholder="Email" [(ngModel)]="User.Email"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" placeholder="Telefono"></ion-input>
+          <ion-input type="text" required minlength="8" maxlength="20" placeholder="Telefono" [(ngModel)]="User.Telefono"></ion-input>
         </ion-item>
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1"  block (click)="signup()">
+        <button  ion-button color="first1"  block (click)="register()" [disabled]="!loginForm.form.valid">
           Registrarse
         </button>
       </div>
-
+      </form>
     </div>
 
     <!-- Other links -->

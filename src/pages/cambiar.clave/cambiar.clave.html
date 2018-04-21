@@ -15,31 +15,33 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
+        <p ion-text color="first1" >Contraseña</p>
       </div>
 
       <!-- Login form -->
-
+      <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" placeholder="Codigo"></ion-input>
+          <ion-input type="text" required minlength="4" maxlength="4" placeholder="Codigo" [(ngModel)]="codigo"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Contraseña"></ion-input>
+          <ion-input type="password" required minlength="6" maxlength="20" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Rep. Contraseña"></ion-input>
+          <ion-input type="password" required minlength="6" maxlength="20" placeholder="Rep. Contraseña" [(ngModel)]="reppassword"></ion-input>
         </ion-item>
 
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1"  block (click)="signup()">
+        <button  ion-button color="first1"  block (click)="changepassword()" [disabled]="!loginForm.form.valid">
           guardar contraseña
         </button>
       </div>
+    </form>
 
     </div>
 

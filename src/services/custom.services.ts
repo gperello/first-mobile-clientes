@@ -21,7 +21,6 @@ export class CustomServices extends BaseService{
           localStorage.setItem('token_de_cliente', data.Token);
           this.push.Init(this.RegistracionFcm, this);
           if(onsucess != null)onsucess();
-          this.hideLoading();
         }, error => {
           if(onerror != null)onerror(error);
         });
@@ -34,6 +33,23 @@ export class CustomServices extends BaseService{
           onsuccess(data);
         });
     }
+
+    public Register(user, onsuccess:(data) => void):void{
+        this.ExecutePostService(this.REGISTRAR_USUARIO, user, data => { 
+          onsuccess(data);
+        });
+    }
+    public GenerateCode(email, onsuccess:(data) => void):void{
+        this.ExecuteGetService(this.GENERAR_CODIGO, [ email ], data => { 
+          onsuccess(data);
+        });
+    }
+    public ChangePassword(code, password, onsuccess:(data) => void):void{
+        this.ExecuteGetService(this.CAMBIAR_PASSWORD, [ code, password ], data => { 
+          onsuccess(data);
+        });
+    }
+
     
 
     //REGISTRATION FCM
