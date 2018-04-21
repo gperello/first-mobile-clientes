@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home'
+import {CustomServices} from '../../services/custom.services'
 
 /*
   Generated class for the LoginPage page.
@@ -14,7 +15,7 @@ import {HomePage} from '../home/home'
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  constructor(public nav: NavController) {}
+  constructor(public nav: NavController, public service:CustomServices) {}
 
   signup() {
     this.nav.setRoot(RegisterPage);

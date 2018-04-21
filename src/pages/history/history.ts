@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { TripService } from '../../services/trip-service';
 
 /*
   Generated class for the HistoryPage page.
@@ -16,7 +15,7 @@ export class HistoryPage {
   // history records
   public records:any;
 
-  constructor(public nav: NavController, public tripService: TripService) {
-    this.records = tripService.getAll();
+  constructor(public nav: NavController) {
+    
   }
 }

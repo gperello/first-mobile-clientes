@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, Platform, AlertController} from 'ionic-angular';
 import {PlacesPage} from '../places/places';
-import {PaymentMethodPage} from '../payment-method/payment-method';
-import {FindingPage} from "../finding/finding";
 import { ResumenPage } from '../resumen/resumen';
 declare var google: any;
 

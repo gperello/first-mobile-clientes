@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { PlaceService } from '../../services/place-service';
 
 /*
   Generated class for the PlacesPage page.
@@ -19,9 +18,7 @@ export class PlacesPage {
   // all places
   public places:any;
 
-  constructor(public nav: NavController, public placeService: PlaceService) {
-    this.recentPlaces = this.placeService.getAll();
-    this.places = this.placeService.getAll();
+  constructor(public nav: NavController) {
   }
 
   choosePlace() {

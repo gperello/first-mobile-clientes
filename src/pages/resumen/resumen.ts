@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, Platform, AlertController} from 'ionic-angular';
 import {PlacesPage} from '../places/places';
-import {PaymentMethodPage} from '../payment-method/payment-method';
-import {FindingPage} from "../finding/finding";
 declare var google: any;
 
 /*
@@ -51,7 +49,7 @@ export class ResumenPage {
  // choose payment method
   choosePaymentMethod() {
     // go to payment method page
-    this.nav.push(PaymentMethodPage);
+    
   }
 
 }

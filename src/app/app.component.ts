@@ -8,8 +8,9 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {LoginPage} from '../pages/login/login';
 import {HomePage} from '../pages/home/home';
 import {HistoryPage} from '../pages/history/history';
-import {NotificationPage} from '../pages/notification/notification';
-import {SupportPage} from '../pages/support/support';
+import { PlacesPage } from '../pages/places/places';
+import { ProfilePage } from '../pages/profile/profile';
+import { CustomServices } from '../services/custom.services';
 
 @Component({
   templateUrl: 'app.html',
@@ -25,39 +26,40 @@ export class MyApp {
 
   public pages = [
     {
-      title: 'Home',
+      title: 'Inicio',
       icon: 'ios-home-outline',
       count: 0,
       component: HomePage
     },
     {
-      title: 'History',
+      title: 'Historial',
       icon: 'ios-time-outline',
       count: 0,
       component: HistoryPage
     },
     {
-      title: 'Notification',
+      title: 'Ubicaciones',
       icon: 'ios-notifications-outline',
       count: 2,
-      component: NotificationPage
+      component: PlacesPage
     },
     {
-      title: 'Support',
+      title: 'Perfil',
       icon: 'ios-help-circle-outline',
       count: 0,
-      component: SupportPage
+      component: ProfilePage
     },
     {
-      title: 'Logout',
+      title: 'Cerrar Sesión',
       icon: 'ios-log-out-outline',
       count: 0,
       component: LoginPage
     }
   ];
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private service:CustomServices) {
     this.rootPage = HomePage;
+    if(this.service.UserData() == null) this.rootPage = LoginPage;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.

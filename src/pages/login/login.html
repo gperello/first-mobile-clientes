@@ -12,13 +12,10 @@
 
       <!-- Logo -->
       <div padding text-center>
-        <div class="logo primary-bg">
-          <i class="icon-sedan" ion-text color="light" ></i>
-        </div>
-        <h2 ion-text color="dark" >
-          First SRL
-        </h2>
-        <p ion-text color="dark" >Servicio de transporte de personas</p>
+        <p>
+          <img src="assets/img/first-logo.png"/>
+        </p>
+        <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
       </div>
 
       <!-- Login form -->
@@ -36,7 +33,7 @@
       </ion-list>
 
       <div padding>
-        <button  ion-button color="primary"  block (click)="login()">
+        <button  ion-button color="first1" block (click)="login()">
           Iniciar Sesión
         </button>
       </div>
@@ -49,12 +46,12 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <span ion-text color="primary" >olvidó su contraseña?</span>
+          <span ion-text color="first1" >olvidó su contraseña?</span>
         </ion-col>
         <ion-col>
           <span ion-text color="light" >
             Nuevo en nuestra app?
-            <span ion-text color="primary"  (click)="signup()">Registrarse</span>
+            <span ion-text color="first1"  (click)="signup()">Registrarse</span>
           </span>
         </ion-col>
       </ion-row>
