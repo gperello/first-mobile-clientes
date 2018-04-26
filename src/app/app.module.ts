@@ -23,12 +23,15 @@ import {MapaViajePage} from '../pages/mapaviaje/mapaviaje';
 import {GenerarCodigoPage} from '../pages/generar.codigo/generar.codigo';
 import {EnviarCodigoPage} from '../pages/enviar.codigo/enviar.codigo';
 import {CambiarClavePage} from '../pages/cambiar.clave/cambiar.clave';
+import {MensajesPage} from '../pages/mensajes/mensajes';
 import {BaseService} from '../services/base.service';
 import {CustomServices} from '../services/custom.services';
 import {PushNotificationService} from '../services/push.notification';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Push } from '@ionic-native/push';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { GoogleMapsService } from '../services/google.maps.service';
+
 
 
 // end import pages
@@ -50,6 +53,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     GenerarCodigoPage,
     EnviarCodigoPage,
     CambiarClavePage,
+    MensajesPage,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     GenerarCodigoPage,
     EnviarCodigoPage,
     CambiarClavePage,
+    MensajesPage,
   ],
   providers: [
     StatusBar,
@@ -81,6 +86,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     /* import services */
     BaseService,
     CustomServices,
+    GoogleMapsService,
     PushNotificationService,
     HttpClient, 
     Geolocation, 

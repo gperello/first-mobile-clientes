@@ -19,32 +19,32 @@
       </div>
 
       <!-- Login form -->
-      <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
         <ion-item>
-          <ion-input type="text" placeholder="Email" required minlength="6" maxlength="100" [(ngModel)]="email"></ion-input>
+          <ion-input type="text" placeholder="Email" [ngModelOptions]="{standalone: true}" [(ngModel)]="email"></ion-input>
         </ion-item>
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1"  block (click)="generarcodigo()" [disabled]="!loginForm.form.valid">
+        <button  ion-button color="first1"  block (click)="generarcodigo()">
           validar email
         </button>
       </div>
-      </form>
+
+      <ion-grid padding>
+        <ion-row>
+          <ion-col>
+            <span ion-text color="secondary" >Ya tiene cuenta?</span>
+          </ion-col>
+          <ion-col style="text-align: right">
+            <span ion-text color="first1" (click)="login()">Iniciar Sesión</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  
+
     </div>
 
-    <!-- Other links -->
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <span ion-text color="light" >Ya tiene cuenta?</span>
-        </ion-col>
-        <ion-col>
-          <span ion-text color="first1"  (click)="login()">Iniciar Sesión</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
   </div>
 </ion-content>

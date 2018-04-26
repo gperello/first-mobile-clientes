@@ -3,8 +3,8 @@ import { NavController } from 'ionic-angular';
 import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home'
 import {CustomServices} from '../../services/custom.services'
-import { ToastController } from 'ionic-angular';
 import { GenerarCodigoPage } from '../generar.codigo/generar.codigo';
+import { CambiarClavePage } from '../cambiar.clave/cambiar.clave';
 
 /*
   Generated class for the LoginPage page.
@@ -21,7 +21,7 @@ export class LoginPage {
   password:string;
   error:string
 
-  constructor(public nav: NavController, public service:CustomServices,private toastCtrl: ToastController) {}
+  constructor(public nav: NavController, public service:CustomServices) {}
 
   signup() {
     this.nav.setRoot(RegisterPage);
@@ -31,19 +31,25 @@ export class LoginPage {
   }
 
   login() {
-    this.service.Login(this.username, this.password, () => {
+    if(this.validar()) this.service.Login(this.username, this.password, () => {
         this.nav.setRoot(HomePage);
     }, (message) =>{
-        this.presentToast(message);
+        this.service.presentToast(message);
     });
   }
+  validar():boolean{
+    if(this.username.length < 6 || this.username.length > 100){
+      this.service.presentToast("El usuario ingresado no tiene el formato correcto (entre 6 y 100 caracteres).");
+      return false
+    }
+    if(this.password.length < 6 || this.password.length > 30){
+      this.service.presentToast("La contraseña ingresada no tiene el formato correcto (entre 6 y 30 caracteres).");
+      return false
+    }
+    return true;
+  }
 
-  presentToast(message) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 1000,
-      position: 'top'
-    });
-    toast.present();
+  goToValidar(){
+    this.nav.push(CambiarClavePage);
   }
 }

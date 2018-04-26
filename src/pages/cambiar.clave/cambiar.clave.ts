@@ -23,12 +23,31 @@ export class CambiarClavePage {
   }
 
   changepassword() {
-    this.service.ChangePassword(this.codigo, this.password, (data) => {
-      this.nav.setRoot(HomePage);
+    if(this.validar()) this.service.ChangePassword(this.codigo, this.password, (data) => {
+      this.service.presentToast("Usuario validado, ya puede iniciar sesion.");
+      setTimeout(() => {
+        this.nav.setRoot(LoginPage);
+      }, 3000);
     });
   }
 
   login() {
     this.nav.setRoot(LoginPage);
+  }
+
+  validar():boolean{
+    if(this.codigo.length < 4 || this.codigo.length > 4){
+      this.service.presentToast("El codigo ingresado no tiene el formato correcto (solo 4 caracteres).");
+      return false
+    }
+    if(this.password.length < 6 || this.password.length > 30){
+      this.service.presentToast("La contraseña ingresada no tiene el formato correcto (entre 6 y 30 caracteres).");
+      return false
+    }
+    if(this.password != this.reppassword){
+      this.service.presentToast("Las contraseñas ingresadas no son iguales.");
+      return false
+    }
+    return true;
   }
 }

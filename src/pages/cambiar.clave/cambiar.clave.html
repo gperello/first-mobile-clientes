@@ -15,47 +15,44 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
-        <p ion-text color="first1" >Contraseña</p>
+        <p ion-text color="first1" >validacion de codigo y contraseña</p>
+        <p ion-text color="secondary" >el codigo te llega por mail o sms</p>
       </div>
 
       <!-- Login form -->
-      <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" required minlength="4" maxlength="4" placeholder="Codigo" [(ngModel)]="codigo"></ion-input>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Codigo" [(ngModel)]="codigo"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" required minlength="6" maxlength="20" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
+          <ion-input type="password" [ngModelOptions]="{standalone: true}" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" required minlength="6" maxlength="20" placeholder="Rep. Contraseña" [(ngModel)]="reppassword"></ion-input>
+          <ion-input type="password" [ngModelOptions]="{standalone: true}" placeholder="Rep. Contraseña" [(ngModel)]="reppassword"></ion-input>
         </ion-item>
 
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1"  block (click)="changepassword()" [disabled]="!loginForm.form.valid">
+        <button  ion-button color="first1"  block (click)="changepassword()">
           guardar contraseña
         </button>
       </div>
-    </form>
-
+      <ion-grid padding>
+        <ion-row>
+          <ion-col>
+            <span ion-text color="secondary" >Ya tiene cuenta?</span>
+          </ion-col>
+          <ion-col style="text-align: right">
+            <span ion-text color="first1" (click)="login()">Iniciar Sesión</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  
     </div>
-
-    <!-- Other links -->
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <span ion-text color="light" >Ya tiene cuenta?</span>
-        </ion-col>
-        <ion-col>
-          <span ion-text color="first1"  (click)="login()">Iniciar Sesión</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
   </div>
 </ion-content>

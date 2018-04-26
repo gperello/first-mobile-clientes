@@ -19,41 +19,41 @@
       </div>
 
       <!-- Login form -->
-      <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" required minlength="6" maxlength="100" placeholder="Nombre y Apellido" [(ngModel)]="User.Nombre"></ion-input>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Nombre y Apellido" [(ngModel)]="User.Nombre"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" required minlength="6" maxlength="100" placeholder="Email" [(ngModel)]="User.Email"></ion-input>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Email" [(ngModel)]="User.Email"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" required minlength="8" maxlength="20" placeholder="Telefono" [(ngModel)]="User.Telefono"></ion-input>
+          <p ion-text color="first1" style="margin: 0; padding: 0;" >Sin 0 ni 15</p>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Telefono" [(ngModel)]="User.Telefono"></ion-input>
         </ion-item>
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1"  block (click)="register()" [disabled]="!loginForm.form.valid">
+        <button  ion-button color="first1"  block (click)="register()">
           Registrarse
         </button>
       </div>
-      </form>
+      <ion-grid padding>
+        <ion-row>
+          <ion-col>
+            <span ion-text color="secondary" >Ya tiene cuenta?</span>
+          </ion-col>
+          <ion-col style="text-align: right">
+            <span ion-text color="first1" (click)="login()">Iniciar Sesión</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  
     </div>
 
     <!-- Other links -->
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <span ion-text color="light" >Ya tiene cuenta?</span>
-        </ion-col>
-        <ion-col>
-          <span ion-text color="first1"  (click)="login()">Iniciar Sesión</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
   </div>
 </ion-content>

@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import {LoginPage} from '../login/login';
 import {HomePage} from "../home/home";
 import { CustomServices } from '../../services/custom.services';
-import { EnviarCodigoPage } from '../enviar.codigo/enviar.codigo';
+import { CambiarClavePage } from '../cambiar.clave/cambiar.clave';
 
 /*
  Generated class for the RegisterPage page.
@@ -22,11 +22,25 @@ export class GenerarCodigoPage {
 
   generarcodigo() {
     this.service.GenerateCode(this.email, (data) => {
-        this.nav.push(EnviarCodigoPage, { Token: data.Codigo, Telefono: '' });
+        this.nav.push(CambiarClavePage);
     });
   }
 
   login() {
     this.nav.setRoot(LoginPage);
   }
+
+  validar():boolean{
+    if(this.email.length < 6 || this.email.length > 100){
+      this.service.presentToast("El email ingresado no tiene el formato correcto (entre 6 y 100 caracteres).");
+      return false
+    }
+    var re = new RegExp(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    if(!re.test(this.email)){
+      this.service.presentToast("El email ingresado no tiene el formato correcto.");
+      return false
+    }
+    return true;
+  }
+
 }

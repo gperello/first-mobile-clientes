@@ -17,22 +17,22 @@
 
 <ion-content>
   <!-- Show map here -->
-  <div id="{{ mapId }}" [ngStyle]="{height: '100%'}"></div>
+  <div #map id="map" style="height: 100%;width: 100%"></div>
 
 
    <!--Choose pickup and drop off places-->
   <ion-list class="map-overlay list-full-border">
-      <ion-item (click)="choosePlace()">
+      <ion-item (click)="showOrigen(this)">
         <span class="label" ion-text color="secondary" >ORIGEN</span>
-        <div class="italic">Aeroparque Jorge Newbery</div>
+        <div class="italic bold prewarp"><p>{{Viaje.Origen}}</p></div>
       </ion-item>
-      <ion-item (click)="choosePlace()">
+      <ion-item (click)="showDestino(this)">
         <span class="label" ion-text color="secondary" >DESTINO</span>
-        <div class="italic">San Isidro, Buenos Aires, Argentina</div>
+        <div class="italic bold prewarp">{{Viaje.Destino}}</div>
       </ion-item>
       <ion-item>
         <ion-label>VIAJE CON REGRESO</ion-label>
-        <ion-toggle color="primary" checked="false"></ion-toggle>
+        <ion-toggle color="primary" [(ngModel)]="Viaje.Regreso"></ion-toggle>
       </ion-item>
   </ion-list>
   <ion-fab padding bottom right style="margin-bottom:50px;">
@@ -43,9 +43,14 @@
   <div class="booking-info">
        
     <ion-grid no-padding>
+      <ion-row [hidden]="OcultarKm">
+        <ion-col>
+          {{GetKm}} Km - {{GetDuracion}} Min. aprox.
+        </ion-col>
+      </ion-row>
       <ion-row class="vehicles" text-center>
-        <ion-col class="item-vehicle" *ngFor="let vehicle of vehicles; let i = index" [ngClass]="{'active': vehicle.active}"
-                 (click)="toggleVehicle(i)">
+        <ion-col class="item-vehicle" *ngFor="let vehicle of vehicles" [ngClass]="{'active': vehicle.active}"
+                 (click)="toggleVehicle(vehicle.id)">
           <img padding src="{{ vehicle.image }}" />
           <span>{{ vehicle.name }}</span>
         </ion-col>

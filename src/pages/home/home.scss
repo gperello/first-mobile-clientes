@@ -1,9 +1,5 @@
 page-home,
 .home {
-  #map {
-    width: 100%;
-  }
-
   .modal-bg {
     position: absolute;
     top: 0;
@@ -20,7 +16,7 @@ page-home,
 
     .item {
       .label {
-        font-size: 0.8em;
+        font-size: 1em;
       }
     }
   }

@@ -5,8 +5,10 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar  color="primary" >
-    <ion-title>Payment Methods</ion-title>
+  <ion-navbar  color="first1" >
+    <ion-buttons left>
+    </ion-buttons>
+    <ion-title>Formas de pago</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,18 +16,18 @@
   <ion-list class="list-full-border" radio-group>
     <ion-item>
       <ion-label>
-        Cash
-        <p class="text-hint">Use cash</p>
+        Efectivo
+        <p class="text-hint">Pague en efectivo</p>
       </ion-label>
-      <ion-radio checked="true" value="A" (click)="changeMethod('cash')"></ion-radio>
+      <ion-radio checked="true" value="1" (click)="changeMethod(1)"></ion-radio>
     </ion-item>
 
-    <ion-item>
+    <ion-item [hidden]="OcultarCtaCte()">
       <ion-label>
-        Card
-        <p class="text-hint">Credit card XXX71</p>
+        {{getNombreCuenta}}
+        <p class="text-hint">A cargo de esta cuenta corriente</p>
       </ion-label>
-      <ion-radio value="B" (click)="changeMethod('card')"></ion-radio>
+      <ion-radio value="2" (click)="changeMethod(2)"></ion-radio>
     </ion-item>
   </ion-list>
 </ion-content>

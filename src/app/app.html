@@ -4,7 +4,7 @@
     <!-- User profile -->
     <div text-center padding-top padding-bottom class="primary-bg">
       <img src="assets/img/first-logo.png">
-      <h4 ion-text color="light">Adam Lambert</h4>
+      <h4 ion-text color="light">{{Usuario}}</h4>
     </div>
 
     <ion-list class="list-full-border">
@@ -12,6 +12,10 @@
         <ion-icon item-left name="{{ page.icon }}"></ion-icon>
         {{ page.title }}
         <ion-badge color="danger" item-right *ngIf="page.count">{{ page.count }}</ion-badge>
+      </button>
+      <button ion-item menuClose (click)="logout()">
+        <ion-icon item-left name="ios-log-out-outline"></ion-icon>
+        Cerrar Sesion
       </button>
     </ion-list>
   </ion-content>

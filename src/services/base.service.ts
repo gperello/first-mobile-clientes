@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AlertController, Loading, LoadingController  } from 'ionic-angular';
+import { AlertController, Loading, LoadingController, ToastController  } from 'ionic-angular';
 import { Usuario } from './clases';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
-import { Posicion } from './clases';
 import { Http, Headers } from '@angular/http';
 declare var google;
 
@@ -10,12 +9,12 @@ declare var google;
 export class BaseService {
     public loader:Loading;
     constructor(protected http:Http, protected alert:AlertController, 
-        protected geolocation: Geolocation, protected loadingService:LoadingController) {
+        protected geolocation: Geolocation, protected loadingService:LoadingController,protected toastCtrl: ToastController) {
         this.loader = this.loadingService.create({ content: "Aguarde..." });
     }
   //CONSTANTES
-  BASE_URL = "http://186.122.149.228:8081/";
-  //BASE_URL = "http://localhost:16021/";
+  //BASE_URL = "http://186.122.149.228:8081/";
+  BASE_URL = "http://localhost:16021/";
   ASOCIAR_CLIENTE = "appcliente/asociarcliente/{0}/{1}";
   CALCULAR_TARIFA = "appcliente/calculartarifa";
   CALIFICAR_VIAJE = "appcliente/calificarviaje/{0}/{1}/{2}";
@@ -26,16 +25,17 @@ export class BaseService {
   REGISTRAR_USUARIO = "appcliente/registrarusuario";
   SAVE_VIAJE = "appcliente/saveviaje";
   REGISTRAR_FCM = "appcliente/registrarfcm";
-  GET_CHOFER = "appcliente/getchofer/{0}";
+  GET_VIAJES_ENCURSO = "appcliente/getviajesencurso/{0}";
   GENERAR_CODIGO = "appcliente/generarcodigo/{0}";
   CAMBIAR_PASSWORD = "appcliente/cambiarclave/{0}/{1}";
   LOGIN = "appcliente/login/{0}/{1}";
   LOGOUT = "appcliente/logout/{0}";
+  ENVIAR_CODIGO = "appcliente/enviarcodigo/{0}/{1}";
 
   //HTTP
   ExecuteGetService(url: string, args?:Array<any>, onsuccess?:(data:any) => void, onerror?:(data) => void):void {
       let headers = new Headers({ 
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': localStorage.getItem("token_de_cliente")
       });
       if(onsuccess != null || onerror != null) this.showLoading();
@@ -64,7 +64,7 @@ export class BaseService {
   }
   ExecutePostService(url:string, data:any, onsuccess?:(data) => void, onerror?:(data) => void):void {
       let headers = new Headers({ 
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': localStorage.getItem("token_de_cliente")
       });
       if(onsuccess != null || onerror != null) this.showLoading();
@@ -122,6 +122,15 @@ export class BaseService {
       }],
     });
     alert.present();
+  }
+  //TOAtS
+  presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 
   //LOADING

@@ -23,7 +23,7 @@
       <ion-list class="list-form" padding>
 
       <ion-item>
-          <ion-input type="text" required minlength="8" maxlength="20" placeholder="Telefono"  [(ngModel)]="telefono"></ion-input>
+          <ion-input type="text" required minlength="8" maxlength="20"[ngModelOptions]="{standalone: true}" placeholder="Telefono"  [(ngModel)]="telefono"></ion-input>
         </ion-item>
       </ion-list>
 

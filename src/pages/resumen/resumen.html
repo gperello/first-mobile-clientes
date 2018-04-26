@@ -13,58 +13,72 @@
         <img src="assets/img/first-logo.png"/>
       </ion-title>
     </ion-navbar>
+    <ion-toolbar>
+      <ion-segment>
+        <h4>Detalle del viaje</h4>
+      </ion-segment>
+  </ion-toolbar>
   </ion-header>
   
   
 <ion-content>
-    <ion-list padding class="booking-info">
+    <ion-list>
       <ion-item>
         <span class="label" ion-text color="secondary" >ORIGEN</span>
-        <div class="italic">Aeroparque Jorge Newbery</div>
+        <div class="italic prewarp">{{Viaje.Origen}}</div>
       </ion-item>
       <ion-item>
         <span class="label" ion-text color="secondary" >DESTINO</span>
-        <div class="italic">San Isidro, Buenos Aires, Argentina</div>
+        <div class="italic prewarp">{{Viaje.Destino}}</div>
       </ion-item>
       <ion-item>
-        <span class="label" ion-text>CON REG.</span>
-        <div item-end><img style="height:20px" src="assets/img/auto-normal.png" /></div>
+        <span class="label" ion-text [hidden]="OcultarConRegreso()">CON REG.</span>
+        <div item-end><img style="height:20px" src="{{getIconoTipoMovil}}" /></div>
       </ion-item>
       <ion-item>
-        <div (click)="choosePaymentMethod()">
+        <div (click)="getFormasDePago()">
           <div>FORMA DE PAGO</div>
-          <span class="bold">Efectivo</span>
+          <span class="bold">{{getFormaDePago}}</span>
         </div>
         <ion-icon name="md-arrow-dropright" item-right></ion-icon>
       </ion-item>
-      <ion-item class="button-set">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <button ion-button small class="active" block padding>lo quiero ahora</button>
+      <ion-item>
+        <ion-grid no-padding>
+          <ion-row no-padding class="button-set">
+            <ion-col col-6>
+              <button ion-button small [ngClass]="{active: Viaje.TipoFecha == 1}" block padding (click)="SetTipoFecha(1)">lo quiero ahora</button>
             </ion-col>
-            <ion-col>
-              <button ion-button small block>reserva a futuro</button>
+            <ion-col col-6>
+              <button ion-button small [ngClass]="{active: Viaje.TipoFecha == 2}" block padding (click)="SetTipoFecha(2)">reserva a futuro</button>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-item>
-      <ion-item (click)="showNotePopup()">
-        <span class="italic" ion-text color="dark">MENSAJE AL CONDUCTOR</span>
-        <ion-icon name="md-arrow-dropright" item-right></ion-icon>
+      <ion-item [hidden]="OcultarFecha()">
+          <ion-datetime min="2018" max="2020" placeholder="Ingresar la fecha del viaje" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="Viaje.FechaHora"></ion-datetime>
+        </ion-item>
+      <ion-item (click)="showObservaciones()">
+        <span class="italic" ion-text color="dark">{{getObservaciones}}</span>
+      <ion-icon name="md-arrow-dropright" item-right></ion-icon>
       </ion-item>
       <ion-item>
-          <span class="italic" ion-text color="danger"><b>40</b> KM.</span>
-          <span class="italic" ion-text item-end color="danger"><b>45</b> MIN.</span>
+          <span class="italic" ion-text color="danger"><b>{{GetKm}}</b> KM.</span>
+          <span class="italic" ion-text item-end color="danger"><b>{{GetDuracion}}</b> MIN.</span>
       </ion-item>
       <ion-item>
-          <span class="italic" ion-text color="dark">IMPORTE ESTIMADO</span>
-          <span ion-text item-end color="danger"><b>100.00</b></span>
+          <span class="italic" ion-text color="dark">{{Viaje.TarifaNombre}}</span>
+          <span ion-text item-end color="danger"><b>{{Viaje.ImporteKm}}</b></span>
       </ion-item>
       <ion-item>
         <span class="italic" ion-text color="dark">COSTO DE LA ESPERA</span>
-        <span ion-text item-end color="danger"><b>5.00</b> x MIN.</span>
+        <span ion-text item-end color="danger"><b>{{Viaje.ImporteEspera}}</b></span>
       </ion-item>
-      <button  ion-button color="first1" block>RESERVAR</button>
     </ion-list>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+      <ion-segment>
+        <button  ion-button color="first1" block (click)="Reservar()">RESERVAR</button>
+      </ion-segment>
+  </ion-toolbar>
+</ion-footer>

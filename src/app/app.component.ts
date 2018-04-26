@@ -19,6 +19,7 @@ import { CustomServices } from '../services/custom.services';
   }
 })
 export class MyApp {
+  public Usuario:string;
 
   public rootPage: any;
 
@@ -33,46 +34,43 @@ export class MyApp {
     },
     {
       title: 'Historial',
-      icon: 'ios-time-outline',
+      icon: 'list',
       count: 0,
       component: HistoryPage
     },
     {
       title: 'Ubicaciones',
-      icon: 'ios-notifications-outline',
-      count: 2,
+      icon: 'map',
+      count: 0,
       component: PlacesPage
     },
     {
       title: 'Perfil',
-      icon: 'ios-help-circle-outline',
+      icon: 'ios-contact-outline',
       count: 0,
       component: ProfilePage
     },
-    {
-      title: 'Cerrar Sesión',
-      icon: 'ios-log-out-outline',
-      count: 0,
-      component: LoginPage
-    }
   ];
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private service:CustomServices) {
     this.rootPage = HomePage;
     if(this.service.UserData() == null) this.rootPage = LoginPage;
+    else this.Usuario = this.service.UserData().Nombre;
 
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  logout(){
+    this.service.Logout((data) => {
+      this.nav.setRoot(LoginPage);
+    });
   }
 }
 

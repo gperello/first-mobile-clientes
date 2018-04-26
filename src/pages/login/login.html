@@ -20,43 +20,46 @@
       </div>
 
       <!-- Login form -->
-    <form #loginForm="ngForm" autocomplete="off">
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" required  minlength="6" maxlength="100" placeholder="Email o Telefono" [(ngModel)]="username"></ion-input>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Email o Telefono" [(ngModel)]="username"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" required minlength="6" maxlength="20" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
+          <ion-input type="password" [ngModelOptions]="{standalone: true}" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
         </ion-item>
 
       </ion-list>
 
       <div padding>
-        <button  ion-button color="first1" block (click)="login()" [disabled]="!loginForm.form.valid">
+        <button  ion-button color="first1" block (click)="login()">
           Iniciar Sesión
         </button>
       </div>
-    </form>
+      <ion-grid padding style="padding-top: 0">
+        <ion-row>
+          <ion-col>
+            <span ion-text color="first1" (click)="changepassword()">olvidó su contraseña?</span>
+          </ion-col>
+          <ion-col style="text-align: right;">
+            <span ion-text color="secondary">
+              Nuevo en nuestra app?
+              <span ion-text color="first1"  (click)="signup()">Registrarse</span>
+            </span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="text-align: center;">
+            <span ion-text color="secondary">
+              Recibió un código de activación?
+              <span ion-text color="first1"  (click)="goToValidar()">Valide la cuenta</span>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 
-    <div padding=""></div>
-
-    <!-- Other links -->
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <span ion-text color="first1" (click)="changepassword()">olvidó su contraseña?</span>
-        </ion-col>
-        <ion-col>
-          <span ion-text color="light" >
-            Nuevo en nuestra app?
-            <span ion-text color="first1"  (click)="signup()">Registrarse</span>
-          </span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
   </div>
 </ion-content>
