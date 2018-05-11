@@ -24,19 +24,21 @@
   <ion-list class="map-overlay list-full-border">
       <ion-item (click)="showOrigen(this)">
         <span class="label" ion-text color="secondary" >ORIGEN</span>
-        <div class="italic bold prewarp"><p>{{Viaje.Origen}}</p></div>
+        <div class="bold prewarp"><p>{{Viaje.Origen}}</p></div>
       </ion-item>
       <ion-item (click)="showDestino(this)">
         <span class="label" ion-text color="secondary" >DESTINO</span>
-        <div class="italic bold prewarp">{{Viaje.Destino}}</div>
+        <div class="bold prewarp">{{Viaje.Destino}}</div>
       </ion-item>
       <ion-item>
         <ion-label>VIAJE CON REGRESO</ion-label>
-        <ion-toggle color="primary" [(ngModel)]="Viaje.Regreso"></ion-toggle>
+        <ion-toggle color="primary" [(ngModel)]="Viaje.Regreso" (click)="changeRegreso()"></ion-toggle>
       </ion-item>
   </ion-list>
-  <ion-fab padding bottom right style="margin-bottom:50px;">
-    <button ion-fab color="first1" (click)="getResumen()">SIG.</button>
+  <ion-fab bottom right style="margin-bottom:100px;margin-right: 10px;">
+    <button ion-fab color="first1" (click)="getResumen()">
+      <ion-icon name="send"></ion-icon>
+    </button>
   </ion-fab>
 
   <!-- Booking information -->
@@ -44,8 +46,11 @@
        
     <ion-grid no-padding>
       <ion-row [hidden]="OcultarKm">
-        <ion-col>
+        <ion-col class="">
           {{GetKm}} Km - {{GetDuracion}} Min. aprox.
+        </ion-col>
+        <ion-col class="importe">
+          Aprox.: {{ Viaje.ImporteKm }}
         </ion-col>
       </ion-row>
       <ion-row class="vehicles" text-center>

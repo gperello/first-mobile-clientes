@@ -24,6 +24,9 @@ export class GoogleMapsService{
             mapTypeControl: false,
           });  
     };
+    ClearMarker(marker){
+        if(marker && marker.setMap) marker.setMap(null);
+    }
     CreateMarker(map, LatLng, icono?:string){
         return new google.maps.Marker({
             position: LatLng,
@@ -32,42 +35,45 @@ export class GoogleMapsService{
           });
     };
     CreateTrayecto(map, origen, destino, intermedios?:Array<any>, onsucces?:(km, duracion) => void){
-        this.directionsDisplay.setMap(null);
-        this.directionsDisplay.setMap(map);
-        this.directionsDisplay.setOptions({
-            polylineOptions: {
-                strokeWeight: 2,
-                strokeOpacity: 1,
-                strokeColor: 'red'
-            }, suppressMarkers: true
-        });
-        var waypts = [];
-        if(intermedios != null){
-            intermedios.forEach(element => {
-                waypts.push({
-                    location: element, //google.maps.LatLng
-                    stopover: false
+        if(origen && destino && origen != '' && destino != ''){
+            this.directionsDisplay.setMap(null);
+            this.directionsDisplay.setMap(map);
+            this.directionsDisplay.setDirections({ routes: [] });
+            this.directionsDisplay.setOptions({
+                polylineOptions: {
+                    strokeWeight: 2,
+                    strokeOpacity: 1,
+                    strokeColor: 'red'
+                }, suppressMarkers: true
+            });
+            var waypts = [];
+            if(intermedios != null){
+                intermedios.forEach(element => {
+                    waypts.push({
+                        location: element, //google.maps.LatLng
+                        stopover: false
+                    });
                 });
+            }
+            this.directionsService.route({
+                origin: this.GetPosicionTexto(origen),
+                destination: this.GetPosicionTexto(destino),
+                travelMode: 'DRIVING',
+                waypoints: waypts
+            }, (response, status) => {
+                if (status === 'OK') {
+                    this.directionsDisplay.setOptions({
+                        directions: response,
+                        draggable: false
+                    }); 
+                    let km = parseInt((response.routes[0].legs[0].distance.value / 1000).toString()) * 1000 + 1000;
+                    let duracion = response.routes[0].legs[0].duration.value;
+                    if(onsucces)onsucces(km, duracion);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
             });
         }
-        this.directionsService.route({
-            origin: this.GetPosicionTexto(origen),
-            destination: this.GetPosicionTexto(destino),
-            travelMode: 'DRIVING',
-            waypoints: waypts
-        }, (response, status) => {
-            if (status === 'OK') {
-                this.directionsDisplay.setOptions({
-                    directions: response,
-                    draggable: false
-                }); 
-                let km = parseInt((response.routes[0].legs[0].distance.value / 1000).toString()) * 1000 + 1000;
-                let duracion = response.routes[0].legs[0].duration.value;
-                if(onsucces)onsucces(km, duracion);
-            } else {
-                window.alert('Directions request failed due to ' + status);
-            }
-        });
     };
     Autocomplete(query:string, onsuccess:(predictions)=> void):void{
         let acService = new google.maps.places.AutocompleteService();

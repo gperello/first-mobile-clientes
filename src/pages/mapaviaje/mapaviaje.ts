@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
-import { NavController, Platform, AlertController } from 'ionic-angular';
+import { Component, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { NavController, Platform, AlertController, NavParams } from 'ionic-angular';
 import { HomePage } from "../home/home";
+import { Viaje, Chofer } from '../../models/clases';
+import { GoogleMapsService } from '../../services/google.maps.service';
+import { ConductorPage } from '../conductor/conductor';
+import { CustomServices } from '../../services/custom.services';
 declare var google: any;
 
 /*
@@ -14,66 +18,87 @@ declare var google: any;
   templateUrl: 'mapaviaje.html'
 })
 export class MapaViajePage {
-  // map height
-  public mapHeight:number = 480;
+  @ViewChild('map') mapElement: ElementRef;
+  public map: any;
+  public markerUsuario:any;
+  public markerMovil:any;
+  public Viaje:Viaje = new Viaje();
+  public Chofer:Chofer = new Chofer();
 
-  // driver info
-  public driver:any;
-
-  // map
-  public map:any;
-
-  constructor(public nav: NavController, public platform:Platform,
-              public alertCtrl: AlertController) {
+  constructor(public nav: NavController, private params:NavParams, public platform:Platform, private ref:ChangeDetectorRef,
+              public alertCtrl: AlertController, private geolocation: GoogleMapsService, private service:CustomServices) {
+    this.Viaje = this.params.data.Viaje;
+    this.Chofer = this.params.data.Chofer;
+    this.platform.ready().then((data)=>{
+      this.initializeMap();
+    });
+    setTimeout(() => {
+      this.service.GetViajeEnCurso((data)=>{
+        if(data.Result){
+          this.Viaje = data.Viaje;
+          this.Chofer = data.Chofer,
+          this.getTrayecto();
+        }
+      });
+    }, 3000);
   }
 
-  ionViewDidLoad() {
-    // init map
-    this.initializeMap();
-  }
 
   initializeMap() {
-    let latLng = new google.maps.LatLng(21.0318202, 105.8495298);
-
-    let mapOptions = {
-      center: latLng,
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      zoomControl: false,
-      streetViewControl: false
-    }
-
-    this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-    // get ion-view height
-    var viewHeight = window.screen.height - 44; // minus nav bar
-    // get info block height
-    var infoHeight = document.getElementsByClassName('tracking-info')[0].scrollHeight;
-
-    this.mapHeight = viewHeight - infoHeight;
-
-    let options = {timeout: 120000, enableHighAccuracy: true};
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let newLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        this.map.setCenter(newLatLng);
-        new google.maps.Marker({
-          map: this.map,
-          animation: google.maps.Animation.DROP,
-          position: this.map.getCenter()
-        });
-      },
-
-      (error) => {
-        console.log(error);
-      }, options
-    );
-
-    // refresh map
-    setTimeout(() => {
-      google.maps.event.trigger(this.map, 'resize');
-    }, 300);
+    this.map = this.geolocation.CreateMap(this.mapElement);
+    this.geolocation
+    this.markerUsuario = this.geolocation.CreateMarker(this.map, this.geolocation.GetPosicionTexto(this.Viaje.OrigenPosicion), "assets/img/icono-azul.png");
+    this.map.setCenter(this.geolocation.GetPosicionTexto(this.Viaje.OrigenPosicion));
+    this.getTrayecto();
   }
+
+  getTrayecto(){
+      if(this.Viaje.EstadoId == 2) return;
+      let final = (this.Viaje.EstadoId == 3) ? this.Viaje.OrigenPosicion : this.Viaje.DestinoPosicion;
+      this.geolocation.CreateTrayecto(this.map, this.Chofer.UltimaPosicion, final, null, (km, duracion) => {
+        this.Viaje.Km = km;
+        this.Viaje.Duracion = duracion;
+        this.geolocation.ClearMarker(this.markerMovil)
+        this.markerMovil = this.geolocation.CreateMarker(this.map, this.geolocation.GetPosicionTexto(this.Chofer.UltimaPosicion),  "assets/img/icono-rojo.png");
+        this.ref.detectChanges();
+      });
+  }
+  OcultoReserva(){ return this.Viaje.EstadoId != 2; }
+  OcultoMovilAsignado(){ return this.Viaje.EstadoId != 3 && this.Viaje.EstadoId != 5; }
+  OcultoOrigen(){ return this.Viaje.EstadoId != 3 && this.Viaje.EstadoId != 2; }
+  OcultoPedido(){ return this.Viaje.EstadoId != 2; }
+  OcultoEnCamino(){ return this.Viaje.EstadoId != 3; }
+  OcultoEnCurso(){ return this.Viaje.EstadoId != 5; }
+
+  getInfoChofer(){
+    this.nav.push(ConductorPage, { Chofer: this.Chofer });
+  }
+  NuevoViaje(){
+
+  }
+  CompartirViaje(){
+
+  }
+  CancelarViaje(){
+
+  }
+  Llamar(){
+    
+  }
+
+  get GetDuracion(){
+    if(!this.Viaje)return 0;
+    return parseInt((this.Viaje.Duracion / 60).toString());
+  }
+
+ get GetTitulo(){
+  if(!this.Viaje)return "";
+  switch(this.Viaje.EstadoId){
+    case 2: return "Movil Pedido";
+    case 3: return "Movil en camino";
+    case 5: return "Viaje en curso";
+    case 7: return "Viaje Finalizado";
+  }
+}
+
 }

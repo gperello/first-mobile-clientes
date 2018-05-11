@@ -1,29 +1,32 @@
 page-mapaviaje,
-.tracking {
-  .tracking-info {
-    position: absolute;
-    bottom: 0;
-    padding-bottom: 4px;
-    padding-left: 10px;
-    width: 100%;
+.map-overlay {
+  position: absolute;
+  top: 10px;
+  left: 3%;
+  width: 94%;
+  opacity: 0.8;
 
-    .icon {
-      left: 5px;
-      margin-top: 5px;
-      width: 54px;
-      height: 54px;
-    }
-
-    .item-content {
-      position: relative;
-      padding-right: 80px;
-
-      .action-icons {
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-size: 2em;
-      }
+  .item {
+    .label {
+      font-size: 1em;
     }
   }
+}
+.infochofer{
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.botoninfo{
+  margin-bottom: 60px;
+}
+.titulo{
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  color: color($colors, light);
+}
+.barratitulo{
+  min-height: 6px !important;
+  text-align: center;
 }

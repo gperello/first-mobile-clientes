@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {LoginPage} from '../login/login';
 import {HomePage} from "../home/home";
-import { Usuario } from '../../services/clases';
+import { Usuario } from '../../models/clases';
 import { CustomServices } from '../../services/custom.services';
 
 /*

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Push } from '@ionic-native/push';
-import { Usuario } from './clases';
+import { Usuario } from '../models/clases';
 import { CustomServices } from './custom.services';
 
 @Injectable()

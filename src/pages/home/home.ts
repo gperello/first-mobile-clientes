@@ -2,10 +2,11 @@ import {Component, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core
 import {NavController, Platform, AlertController, ModalController} from 'ionic-angular';
 import {PlacesPage} from '../places/places';
 import { ResumenPage } from '../resumen/resumen';
-import { Viaje } from '../../services/clases';
+import { Viaje } from '../../models/clases';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMapsService } from '../../services/google.maps.service';
 import { CustomServices } from '../../services/custom.services';
+import { MapaViajePage } from '../mapaviaje/mapaviaje';
 declare var google: any;
 
 /*
@@ -26,64 +27,48 @@ export class HomePage {
   public Viaje:Viaje = new Viaje();
 
    // list vehicles
-  vehicles: any = [
-    {
-      name: 'Normal',
-      image: 'assets/img/auto-normal.png',
-      active: true,
-      id: 1,
-    },
-    {
-      name: 'VAN',
-      image: 'assets/img/van.png',
-      active: false,
-      id: 3,
-    },
-    {
-      name: 'VIP',
-      image: 'assets/img/vip.png',
-      active: false,
-      id: 4,
-    } 
+  vehicles: Array<any> = [
+    { name: 'Standar', image: 'assets/img/auto-normal.png', active: true, id: 1 },
+    { name: 'Monovolumen', image: 'assets/img/van.png', active: false, id: 3 },
+    { name: 'VIP', image: 'assets/img/vip.png', active: false, id: 4 } 
   ];
 
   constructor(public nav: NavController, public platform: Platform, public alertCtrl: AlertController, private service:CustomServices,
     private geolocation: GoogleMapsService, public modalCtrl: ModalController, private ref:ChangeDetectorRef) {
-      this.Viaje.Regreso = false;
-      this.Viaje.Km = 0;
-      this.Viaje.TipoMovilId = 1;
-      this.Viaje.Origen = "Buscando Posicion..."
-      this.Viaje.UsuarioId = this.service.UserData().UsuarioId;
-      this.Viaje.ClienteId = this.service.UserData().ClienteId;
-      this.Viaje.Email = this.service.UserData().Email;
-      this.Viaje.Pasajero = this.service.UserData().Nombre;
-      this.Viaje.Telefono = this.service.UserData().Telefono;
-      this.platform.ready().then((data)=>{
-        this.initializeMap();
+      this.service.GetViajeEnCurso((data)=>{
+        if(data.Result){
+          this.nav.setRoot(MapaViajePage, { Viaje: data.Viaje, Chofer: data.Chofer});
+        }
+        else{
+          this.Viaje.Regreso = false;
+          this.Viaje.Km = 0;
+          this.Viaje.TipoMovilId = 1;
+          this.Viaje.Origen = "Buscando Posicion..."
+          this.Viaje.UsuarioId = this.service.UserData().UsuarioId;
+          this.Viaje.ClienteId = this.service.UserData().ClienteId;
+          this.Viaje.Email = this.service.UserData().Email;
+          this.Viaje.Pasajero = this.service.UserData().Nombre;
+          this.Viaje.Telefono = this.service.UserData().Telefono;
+          this.platform.ready().then((data)=>{
+            this.initializeMap();
+          });
+        }
       });
   }
 
-  /* ionViewDidLoad() {
-    this.initializeMap();
-  } */
-
-
-  // toggle active vehicle
   toggleVehicle(id) {
     this.Viaje.TipoMovilId = id;
     for (var i = 0; i < this.vehicles.length; i++) {
       this.vehicles[i].active = (this.vehicles[i].id == id);
     }
+    this.calcularTarifa();
   }
 
   initializeMap() {
     this.map = this.geolocation.CreateMap(this.mapElement);
     this.geolocation.GetPosicionActual((posicion, latlng)=>{
-      this.markerOrigen = new google.maps.Marker({
-        position: latlng,
-        map: this.map,
-        icon: "assets/img/icono-azul.png"
-      });
+      this.geolocation.ClearMarker(this.markerOrigen);
+      this.markerOrigen = this.geolocation.CreateMarker(this.map, latlng, "assets/img/icono-azul.png");
       this.map.setCenter(latlng);
       this.Viaje.OrigenPosicion = posicion;
       this.geolocation.GetDireccion(latlng, (direccion)=> {
@@ -118,6 +103,8 @@ export class HomePage {
             this.Viaje.Origen = data.direccion;
             this.geolocation.GetLatLng(data.id, this.map, (posicion, latlng) => {
               this.Viaje.OrigenPosicion = posicion;
+              this.geolocation.ClearMarker(this.markerOrigen);
+              this.markerOrigen = this.geolocation.CreateMarker(this.map, latlng, "assets/img/icono-azul.png");
               this.getTrayecto();
             });
         }  
@@ -126,16 +113,13 @@ export class HomePage {
   }
 
   getTrayecto(){
-    if(this.Viaje.Origen != '' && this.Viaje.Destino != ''){
+    if(this.Viaje.Origen && this.Viaje.Destino && this.Viaje.Origen != '' && this.Viaje.Destino != ''){
         this.geolocation.CreateTrayecto(this.map, this.Viaje.OrigenPosicion,this.Viaje.DestinoPosicion, null, (km, duracion) => {
             this.Viaje.Km = km;
             this.Viaje.Duracion = duracion;
-            this.markerDestino = new google.maps.Marker({
-              position: this.geolocation.GetPosicionTexto(this.Viaje.DestinoPosicion),
-              map: this.map,
-              icon: "assets/img/icono-rojo.png"
-            });
-            this.ref.detectChanges();
+            this.geolocation.ClearMarker(this.markerDestino);
+            this.markerDestino = this.geolocation.CreateMarker(this.map, this.geolocation.GetPosicionTexto(this.Viaje.DestinoPosicion), "assets/img/icono-rojo.png");
+            this.calcularTarifa();
         });
     }
   }
@@ -152,5 +136,15 @@ export class HomePage {
   get GetDuracion(){
     if(!this.Viaje)return 0;
     return parseInt((this.Viaje.Duracion / 60).toString());
+  }
+
+  calcularTarifa(){
+    this.service.CalcularTarifa(this.Viaje,(data)=>{
+      this.Viaje.TarifaId = data.TarifaId;
+      this.Viaje.TarifaNombre = data.TarifaNombre;
+      this.Viaje.ImporteKm = data.Importe;
+      this.Viaje.ImporteEspera = data.Espera;
+    });
+    this.ref.detectChanges();
   }
 }

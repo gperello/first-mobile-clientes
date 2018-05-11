@@ -36,6 +36,7 @@ export class Viaje
     public OrigenPosicion:string
     public Destino:string
     public DestinoPosicion:string
+    public EstadoId:number
     public FormaPagoId:number
     public Regreso:boolean
     public TarifaId:number
@@ -70,4 +71,16 @@ export class TarifaCalculada
     public TarifaNombre:string
     public Importe:string
     public Espera:string
+}
+
+export class Chofer
+{
+    public ChoferId:number
+    public Nombre:string
+    public Vehiculo:string
+    public CalificacionChofer:number
+    public ClificacionMovil:number
+    public UltimaPosicion:string
+    public UrlFoto:string
+    public Distancia:string
 }

@@ -13,28 +13,89 @@
       <img src="assets/img/first-logo.png"/>
     </ion-title>
   </ion-navbar>
+  <ion-toolbar color="first" class="barratitulo">
+      <span class="titulo">{{GetTitulo}}</span>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
-  <!-- Show map here -->
-  <div id="map" [ngStyle]="{height: mapHeight + 'px'}"></div>
-
-  <ion-list class="list-no-border">
-
-    <ion-item class="tracking-info no-border">
-      <img class="circle icon pull-left" src="assets/img/thumb/adam.jpg" item-left alt=""/>
-      <div class="item-content">
-        <div>
-          <strong>Chevrolet Onix Rojo [NHO 238]</strong>
-          <div>Gustavo Perello</div>
-        </div>
-
-        <div class="action-icons">
-          <ion-icon name="call" color="secondary" ></ion-icon>
-          <ion-icon name="whatsapp" color="primary" ></ion-icon>
-        </div>
-      </div>
+  <div #map id="map" style="height: 100%;width: 100%"></div>
+   <!--Choose pickup and drop off places-->
+  <ion-list class="map-overlay list-full-border">
+    <ion-item [hidden]="OcultoReserva()">
+      <span class="label" ion-text color="secondary" >RESERVA</span>
+      <div class="italic bold prewarp"><p>{{Viaje.Reserva}}</p></div>
+      <span item-end >{{Viaje.FechaHora}}</span>
+    </ion-item>
+    <ion-item [hidden]="OcultoMovilAsignado()">
+      <span class="label" ion-text color="secondary" >MOVIL ASIGNADO</span>
+      <div class="italic bold prewarp">{{Chofer.Vehiculo}}</div>
+    </ion-item>
+    <ion-item [hidden]="OcultoOrigen()">
+      <span class="label" ion-text color="secondary" >PEDIDO EN</span>
+      <div class="italic bold prewarp">{{Viaje.Origen}}</div>
+    </ion-item>
+    <ion-item [hidden]="OcultoEnCurso()">
+      <span class="label" ion-text color="secondary">VIAJA HASTA</span>
+      <div class="italic bold prewarp">{{Viaje.Destino}}</div>
+    </ion-item>
+    <ion-item [hidden]="OcultoMovilAsignado()">
+      <span class="label" ion-text color="secondary">LLEGA EN {{GetDuracion}} min.</span>
     </ion-item>
   </ion-list>
-
+  <ion-fab class="botoninfo" bottom right>
+    <button ion-fab color="first1" (click)="getInfoChofer()">
+      Info
+    </button>
+  </ion-fab>
 </ion-content>
+
+<ion-footer [hidden]="OcultoPedido()">
+  <ion-toolbar>
+      <span class="infochofer">Buscando Movil...</span>
+      <ion-segment>
+          <button style="width: 50%" ion-button  icon-start color="primary" (click)="NuevoViaje()">
+                  <ion-icon name="bell-outline"></ion-icon>
+                  NUEVO VIAJE
+          </button>
+          <button style="width: 50%" ion-button block icon-end color="danger" (click)="CancelarViaje()">
+              CANCELAR
+              <ion-icon name="close"></ion-icon>
+          </button>
+      </ion-segment>
+  </ion-toolbar>
+</ion-footer>
+  
+<ion-footer [hidden]="OcultoEnCamino()">
+  <ion-toolbar>
+      <span class="infochofer">Movil conducido por {{Chofer.Nombre}}</span>
+      <ion-segment>
+          <button style="width: 50%" ion-button  icon-start color="primary" (click)="Llamar()">
+                  <ion-icon name="call"></ion-icon>
+                  LLAMAR
+          </button>
+          <button style="width: 50%" ion-button block icon-end color="danger" (click)="CancelarViaje()">
+              CANCELAR
+              <ion-icon name="close"></ion-icon>
+          </button>
+      </ion-segment>
+  </ion-toolbar>
+</ion-footer>
+<ion-footer [hidden]="OcultoEnCurso()">
+    <ion-toolbar>
+        <span class="infochofer">Movil conducido por {{Chofer.Nombre}}</span>
+        <ion-segment>
+          <button style="width: 50%" ion-button  icon-start color="primary" (click)="CompartirViaje()">
+                  <ion-icon name="logo-whatsapp"></ion-icon>
+                  COMPARTIR
+          </button>
+          <button style="width: 50%" ion-button block icon-end color="danger" (click)="CancelarViaje()">
+              CANCELAR
+              <ion-icon name="close"></ion-icon>
+          </button>
+      </ion-segment>
+  </ion-toolbar>
+</ion-footer>
+      
+      

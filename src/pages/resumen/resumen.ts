@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, Platform, AlertController, NavParams, ModalController} from 'ionic-angular';
 import {PlacesPage} from '../places/places';
-import { Viaje } from '../../services/clases';
+import { Viaje } from '../../models/clases';
 import { CustomServices } from '../../services/custom.services';
 import { FormaDePagoPage } from '../formadepago/formadepago';
 import { MensajesPage } from '../mensajes/mensajes';
@@ -28,12 +28,6 @@ export class ResumenPage {
     this.Viaje = this.params.data.Viaje;
     this.Viaje.TipoFecha = 1;
     this.Viaje.FormaPagoId = 1;
-    this.service.CalcularTarifa(this.Viaje,(data)=>{
-      this.Viaje.TarifaId = data.TarifaId;
-      this.Viaje.TarifaNombre = data.TarifaNombre;
-      this.Viaje.ImporteKm = data.Importe;
-      this.Viaje.ImporteEspera = data.Espera;
-    });
   }
   OcultarConRegreso(){
     if(!this.Viaje) return true;

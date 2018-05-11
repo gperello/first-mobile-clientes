@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController, Loading, LoadingController, ToastController  } from 'ionic-angular';
-import { Usuario } from './clases';
+import { Usuario } from '../models/clases';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { Http, Headers } from '@angular/http';
 declare var google;
@@ -13,8 +13,8 @@ export class BaseService {
         this.loader = this.loadingService.create({ content: "Aguarde..." });
     }
   //CONSTANTES
-  //BASE_URL = "http://186.122.149.228:8081/";
-  BASE_URL = "http://localhost:16021/";
+  BASE_URL = "http://186.122.149.228:8081/";
+  //BASE_URL = "http://localhost:16021/";
   ASOCIAR_CLIENTE = "appcliente/asociarcliente/{0}/{1}";
   CALCULAR_TARIFA = "appcliente/calculartarifa";
   CALIFICAR_VIAJE = "appcliente/calificarviaje/{0}/{1}/{2}";

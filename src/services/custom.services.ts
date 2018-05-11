@@ -4,7 +4,7 @@ import { AlertController, LoadingController, ToastController } from "ionic-angul
 import { Geolocation } from '@ionic-native/geolocation';
 import { PushNotificationService } from "./push.notification";
 import { Injectable } from "@angular/core";
-import { Viaje, CalculoDeViaje, TarifaCalculada } from "./clases";
+import { Viaje, CalculoDeViaje, TarifaCalculada } from "../models/clases";
 
 @Injectable()
 export class CustomServices extends BaseService{
@@ -89,8 +89,13 @@ export class CustomServices extends BaseService{
         this.ExecutePostService(this.CALCULAR_TARIFA, params, onsuccess );
     }
 
+    //RESERVA
     public Reservar(viaje:Viaje, onsuccess:(data)=> void){
         this.ExecutePostService(this.SAVE_VIAJE, viaje, onsuccess);  
     }
 
+    //GET VIAJE EN CURSO
+    public GetViajeEnCurso(onsuccess:(data)=> void){
+        this.ExecuteGetService(this.GET_VIAJES_ENCURSO, [ this.UserData().UsuarioId ], onsuccess);  
+    }
 }
