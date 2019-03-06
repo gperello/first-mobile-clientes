@@ -37,6 +37,8 @@ $colors: (
   gray:       #ccc,
   bgColor:    #DDD,
   white:      #FFF,
+  google:     #c71610,
+  facebook:	  #3b5998
 );
 
 
@@ -58,3 +60,4 @@ $colors: (
 $ionicons-font-path: "../assets/fonts";
 @import "ionic.ionicons";
 @import "vehicle";
+

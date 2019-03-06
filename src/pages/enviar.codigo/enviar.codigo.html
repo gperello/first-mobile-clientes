@@ -15,7 +15,7 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
-        <p ion-text color="first1" >Validacion de Telefono</p>
+        <p ion-text color="first1" >Cambiar contraseña</p>
       </div>
 
       <!-- Login form -->
@@ -23,13 +23,15 @@
       <ion-list class="list-form" padding>
 
       <ion-item>
-          <ion-input type="text" required minlength="8" maxlength="20"[ngModelOptions]="{standalone: true}" placeholder="Telefono"  [(ngModel)]="telefono"></ion-input>
-        </ion-item>
-      </ion-list>
+          <ion-label stacked>Email</ion-label>
+          <ion-input type="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="Email"></ion-input>
+      </ion-item>
 
+      </ion-list>
       <div padding>
-        <button  ion-button color="first1" block (click)="enviarcodigo()" [disabled]="!loginForm.form.valid">
-          enviar codigo de validacion
+        <button ion-button icon-start color="first1" block (click)="enviaremail()">
+          <ion-icon name="mail"></ion-icon>
+          enviar email
         </button>
       </div>
     </form>

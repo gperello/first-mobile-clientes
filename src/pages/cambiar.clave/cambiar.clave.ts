@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from '../login/login';
 import {HomePage} from "../home/home";
 import { CustomServices } from '../../services/custom.services';
+import { Usuario } from '../../models/clases';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /*
  Generated class for the RegisterPage page.
@@ -15,20 +17,30 @@ import { CustomServices } from '../../services/custom.services';
   templateUrl: 'cambiar.clave.html'
 })
 export class CambiarClavePage {
-  codigo:string;
+  User:Usuario = new Usuario();
   password:string;
   reppassword:string;
 
-  constructor(public nav:NavController, private service:CustomServices) {
+  constructor(public nav:NavController, private params:NavParams, private service:CustomServices, public fb:AngularFireAuth) {
+    this.User = this.params.data.User;
   }
 
   changepassword() {
-    if(this.validar()) this.service.ChangePassword(this.codigo, this.password, (data) => {
-      this.service.presentToast("Usuario validado, ya puede iniciar sesion.");
-      setTimeout(() => {
-        this.nav.setRoot(LoginPage);
-      }, 3000);
-    });
+    if(this.validar()) {
+      this.fb.auth.createUserWithEmailAndPassword(this.User.Email, this.password).then((result) =>{
+        var user = result.user;
+        user.updateProfile({
+            displayName: this.User.Nombre + " " + this.User.Apellido,
+            photoURL: ""
+        });
+        this.service.Register(this.User, ()=>{
+          this.nav.setRoot(HomePage);
+        });
+        user.sendEmailVerification();
+      }).catch((mensaje)=>{
+          this.service.showAlert("Error", mensaje);
+      });
+    }
   }
 
   login() {
@@ -36,10 +48,6 @@ export class CambiarClavePage {
   }
 
   validar():boolean{
-    if(this.codigo.length < 4 || this.codigo.length > 4){
-      this.service.presentToast("El codigo ingresado no tiene el formato correcto (solo 4 caracteres).");
-      return false
-    }
     if(this.password.length < 6 || this.password.length > 30){
       this.service.presentToast("La contraseña ingresada no tiene el formato correcto (entre 6 y 30 caracteres).");
       return false

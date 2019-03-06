@@ -1,4 +1,13 @@
-page-formadepago,
-.payment-method {
-
+page-formadepago{
+.item-inner {
+    margin-left: 0px !important;
+}
+.note-md {
+    color: color($colors, first1) !important;
+    font-weight: bold !important;
+}
+.item-cta-cte {
+    margin-top: 0.5em;
+    padding-bottom: 0.3em;
+}
 }

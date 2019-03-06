@@ -15,70 +15,62 @@
     </ion-navbar>
     <ion-toolbar>
       <ion-segment>
-        <h4>Detalle del viaje</h4>
+        <h3>Detalle del viaje</h3>
       </ion-segment>
   </ion-toolbar>
   </ion-header>
   
   
 <ion-content>
-    <ion-list>
+    <ion-list style="margin-top:0.5em">
       <ion-item>
-        <span class="label" ion-text color="secondary" >ORIGEN</span>
+        <span class="label" ion-text color="secondary" >Origen</span>
         <div class="italic prewarp">{{Viaje.Origen}}</div>
       </ion-item>
       <ion-item>
-        <span class="label" ion-text color="secondary" >DESTINO</span>
+        <span class="label" ion-text color="secondary" >Destino</span>
         <div class="italic prewarp">{{Viaje.Destino}}</div>
       </ion-item>
       <ion-item>
-        <span class="label" ion-text [hidden]="OcultarConRegreso()">CON REG.</span>
-        <div item-end><img style="height:20px" src="{{getIconoTipoMovil}}" /></div>
+          <span class="label bold" ion-text >{{getIconoTipoMovil}}</span>
+          <span class="label bold" ion-text [hidden]="OcultarConRegreso()" item-end>Con regreso</span>
       </ion-item>
       <ion-item>
-        <div (click)="getFormasDePago()">
-          <div>FORMA DE PAGO</div>
-          <span class="bold">{{getFormaDePago}}</span>
-        </div>
-        <ion-icon name="md-arrow-dropright" item-right></ion-icon>
+        <button ion-button color="first1" style="width:100%" [outline]="esAhora()" (click)="cambiotipofecha(1)">
+          Ahora
+        </button>
+        <button ion-button color="first1" style="width:50%" [outline]="esFuturo()" (click)="cambiotipofecha(2)" item-end>
+          A futuro
+        </button>
       </ion-item>
-      <ion-item>
-        <ion-grid no-padding>
-          <ion-row no-padding class="button-set">
-            <ion-col col-6>
-              <button ion-button small [ngClass]="{active: Viaje.TipoFecha == 1}" block padding (click)="SetTipoFecha(1)">lo quiero ahora</button>
-            </ion-col>
-            <ion-col col-6>
-              <button ion-button small [ngClass]="{active: Viaje.TipoFecha == 2}" block padding (click)="SetTipoFecha(2)">reserva a futuro</button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+      <ion-item [hidden]="OcultarFecha()" (click)="cambiotipofecha(2)">
+        {{Viaje.FechaHora}}
       </ion-item>
-      <ion-item [hidden]="OcultarFecha()">
-          <ion-datetime min="2018" max="2020" placeholder="Ingresar la fecha del viaje" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="Viaje.FechaHora"></ion-datetime>
-        </ion-item>
       <ion-item (click)="showObservaciones()">
         <span class="italic" ion-text color="dark">{{getObservaciones}}</span>
       <ion-icon name="md-arrow-dropright" item-right></ion-icon>
       </ion-item>
       <ion-item>
-          <span class="italic" ion-text color="danger"><b>{{GetKm}}</b> KM.</span>
-          <span class="italic" ion-text item-end color="danger"><b>{{GetDuracion}}</b> MIN.</span>
+          <span class="italic" ion-text color="danger"><b>{{GetKm}}</b> km.</span>
+          <span class="italic" ion-text item-end color="danger"><b>{{GetDuracion}}</b> min.</span>
       </ion-item>
       <ion-item>
           <span class="italic" ion-text color="dark">{{Viaje.TarifaNombre}}</span>
           <span ion-text item-end color="danger"><b>{{Viaje.ImporteKm}}</b></span>
       </ion-item>
       <ion-item>
-        <span class="italic" ion-text color="dark">COSTO DE LA ESPERA</span>
+        <span class="italic" ion-text color="dark">Costo de la espera</span>
         <span ion-text item-end color="danger"><b>{{Viaje.ImporteEspera}}</b></span>
+      </ion-item>
+      <ion-item>
+        <span class="prewarp">{{espera}}</span>
       </ion-item>
     </ion-list>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
       <ion-segment>
-        <button  ion-button color="first1" block (click)="Reservar()">RESERVAR</button>
+        <button  ion-button color="first1" block (click)="Pagar()">RESERVAR</button>
       </ion-segment>
   </ion-toolbar>
 </ion-footer>

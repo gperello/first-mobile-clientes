@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController, Platform, AlertController, NavParams, ModalController} from 'ionic-angular';
-import {PlacesPage} from '../places/places';
+import {NavController, Platform, AlertController, NavParams, ModalController, DateTime} from 'ionic-angular';
 import { Viaje } from '../../models/clases';
 import { CustomServices } from '../../services/custom.services';
 import { FormaDePagoPage } from '../formadepago/formadepago';
-import { MensajesPage } from '../mensajes/mensajes';
-declare var google: any;
+import * as moment from 'moment';
+import { DatePicker } from '@ionic-native/date-picker';
+
 
 /*
  Generated class for the HomePage page.
@@ -19,15 +19,15 @@ declare var google: any;
 })
 export class ResumenPage {
   Viaje:Viaje = new Viaje();
-  fechaminima:string = new Date().getFullYear().toString() + '-' + new Date().getMonth().toString() + '-' + new Date().getDay().toString();
-  //fechamaxima:string = this.addDays(new Date(), 7).getFullYear().toString() + '-' + this.addDays(new Date(), 7).getMonth().toString() + '-' + this.addDays(new Date(), 7).getDay().toString();
- 
+  espera:string;
   
   constructor(public nav: NavController, public platform: Platform, private service:CustomServices,
-     public params: NavParams, public modalCtrl: ModalController, private alert:AlertController) {
+     public params: NavParams, public modalCtrl: ModalController, private alert:AlertController,private datePicker: DatePicker) {
     this.Viaje = this.params.data.Viaje;
     this.Viaje.TipoFecha = 1;
-    this.Viaje.FormaPagoId = 1;
+    this.Viaje.FechaHora = moment().add(-5, 'minutes').format("DD/MM/YYYY HH:mm");
+    this.Viaje.FormaPagoId = 3;
+    this.espera = this.params.data.Espera;
   }
   OcultarConRegreso(){
     if(!this.Viaje) return true;
@@ -65,22 +65,14 @@ export class ResumenPage {
     });
     prompt.present();
   }
-  getFormasDePago(){
-    let modal = this.modalCtrl.create(FormaDePagoPage);
-    modal.onDidDismiss(data => {
-        if(data){
-            this.Viaje.FormaPagoId = data
-        }  
-    })
-    modal.present();
-  }
+  
 
   get getIconoTipoMovil(){
     if(!this.Viaje)return "";
     switch(this.Viaje.TipoMovilId){
-      case 1: return "assets/img/auto-normal.png";
-      case 3: return "assets/img/van.png";
-      case 4: return "assets/img/vip.png";
+      case 1: return "Móvil Standar";
+      case 3: return "Monovolúmen";
+      case 4: return "Automóvil VIP";
     }
 
   }
@@ -90,14 +82,7 @@ export class ResumenPage {
     else return "Mensaje al Chofer...";
   }
 
-  get getFormaDePago(){
-    if(!this.Viaje)return "";
-    switch(this.Viaje.FormaPagoId){
-      case 1: return "Efectivo";
-      case 2: return "Cuenta Corriente";
-      case 3: return "Pago Electronico";
-    }
-  }
+  
   get GetKm(){
     if(!this.Viaje)return 0;
     return this.Viaje.Km / 1000;
@@ -114,14 +99,45 @@ export class ResumenPage {
     return result;
   }
 
-
-Reservar(){
-  if(this.Viaje.TipoFecha = 1) this.Viaje.FechaHora = "26/04/2018 16:21";
-  this.service.Reservar(this.Viaje,(data)=> {
-    this.nav.setRoot(MensajesPage,{
-      titulo: "Reserva registrada correctamente",
-      mensaje: "Su reserva quedó registrada con el número " + data.Id + ". Recibirá una notificación cuando el movil esté en camino."
-    });
-  });
+Pagar(){
+  this.nav.push(FormaDePagoPage, { Viaje: this.Viaje });
 }
+ValidarFechaViaje(date:Date):boolean{
+  let now = new Date();
+  return now < date;
+}
+
+cambiotipofecha(tipo){
+  if(tipo == 1) this.Viaje.FechaHora = moment().format("DD/MM/YYYY HH:mm");
+  else {
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'datetime',
+      is24Hour: true,
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+    }).then(
+      date => {
+        if(!this.ValidarFechaViaje(date)){
+          this.Viaje.TipoFecha = 1;
+          this.Viaje.FechaHora = moment().format("DD/MM/YYYY HH:mm");
+          this.service.presentToast("La fecha debe ser mayor a la actual.");
+          return false;
+        }
+        this.Viaje.FechaHora = moment(date).format("DD/MM/YYYY HH:mm")
+      },
+      err => this.service.presentToast("Cancelado por usuario")
+    );
+  }
+  this.Viaje.TipoFecha = tipo;
+}
+esAhora(){
+  if(!this.Viaje)return 0;
+  return this.Viaje.TipoFecha == 2;
+}
+esFuturo(){
+  if(!this.Viaje)return 0;
+  return this.Viaje.TipoFecha == 1;
+}
+
+
 }

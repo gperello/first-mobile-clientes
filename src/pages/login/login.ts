@@ -3,8 +3,10 @@ import { NavController } from 'ionic-angular';
 import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home'
 import {CustomServices} from '../../services/custom.services'
-import { GenerarCodigoPage } from '../generar.codigo/generar.codigo';
 import { CambiarClavePage } from '../cambiar.clave/cambiar.clave';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import { EnviarCodigoPage } from '../enviar.codigo/enviar.codigo';
 
 /*
   Generated class for the LoginPage page.
@@ -21,22 +23,66 @@ export class LoginPage {
   password:string;
   error:string
 
-  constructor(public nav: NavController, public service:CustomServices) {}
+  constructor(public nav: NavController, public service:CustomServices, public fb:AngularFireAuth) {
+    if(this.service.GetValidandoUsuario()){
+      this.service.SetValidandoUsuario(null);
+      this.service.showLoading();
+      this.fb.auth.getRedirectResult().then((result) => {
+        if(result.user != null){
+          var user = result.user;
+          this.service.Login(user.email, user.displayName, user.phoneNumber, user.photoURL, ()=>{
+            this.nav.setRoot(HomePage);
+          });
+        }
+      }).catch((error)=> {
+        this.service.presentToast(error.message);
+      });
+    }
+  }
 
   signup() {
     this.nav.setRoot(RegisterPage);
   }
   changepassword() {
-    this.nav.setRoot(GenerarCodigoPage);
+    this.nav.setRoot(EnviarCodigoPage);
+  }
+  
+  login() {
+    if(this.validar()){ 
+      this.service.SetValidandoUsuario(null);
+      this.fb.auth.signInWithEmailAndPassword(this.username,this.password).then(
+      (result)=>{
+        var user = result.user;
+        this.service.Login(user.email, user.displayName, user.phoneNumber, user.photoURL, ()=>{
+          this.nav.setRoot(HomePage);
+        });
+      },
+      ()=>{
+        this.service.presentToast("Usuario o contraseña inválido.");
+      });
+    }
+  }
+  async logingoogle() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account"});
+    this.service.SetValidandoUsuario("true");
+    this.service.showLoading();
+    this.fb.auth.signInWithRedirect(provider);
+    
+  }
+  async loginfacebook() {
+    
+    var provider = new firebase.auth.FacebookAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account"});
+    this.service.SetValidandoUsuario("true");
+    this.service.showLoading();
+    this.fb.auth.signInWithRedirect(provider);
+    
+  }
+  onsuccess() {
+    this.nav.setRoot(HomePage);
   }
 
-  login() {
-    if(this.validar()) this.service.Login(this.username, this.password, () => {
-        this.nav.setRoot(HomePage);
-    }, (message) =>{
-        this.service.presentToast(message);
-    });
-  }
   validar():boolean{
     if(this.username.length < 6 || this.username.length > 100){
       this.service.presentToast("El usuario ingresado no tiene el formato correcto (entre 6 y 100 caracteres).");

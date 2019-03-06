@@ -3,8 +3,8 @@
   <ion-content class="menu-left">
     <!-- User profile -->
     <div text-center padding-top padding-bottom class="primary-bg">
-      <img src="assets/img/first-logo.png">
-      <h4 ion-text color="light">{{Usuario}}</h4>
+      <img class="profile-picture" [src]="Usuario.Foto">
+      <h4 ion-text color="light">{{Usuario.Nombre}}</h4>
     </div>
 
     <ion-list class="list-full-border">

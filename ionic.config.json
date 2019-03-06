@@ -1,6 +1,5 @@
 {
-  "name": "ionic2_taxi",
-  "app_id": "d0cc49ac",
+  "name": "first-mobile-clientes",
   "integrations": {
     "cordova": {}
   },

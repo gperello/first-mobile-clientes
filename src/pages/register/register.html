@@ -5,37 +5,277 @@
   Ionic pages and navigation.
 -->
 
-<ion-content class=" auth-bg">
+<ion-content class="auth-bg">
   <div class="auth-content">
 
     <div class="light-bg">
       <!-- Logo -->
       <div padding text-center>
-        <p>
+        <p style="margin:0">
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
-        <p ion-text color="first1" >reigistro de usuario</p>
+        <p ion-text color="first1" style="margin:0">reigistro de usuario</p>
       </div>
 
       <!-- Login form -->
-      <ion-list class="list-form" padding>
+      <ion-list padding>
+          <ion-item>
+              <ion-label stacked>Nombres</ion-label>
+              <ion-input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="User.Nombre"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Nombre y Apellido" [(ngModel)]="User.Nombre"></ion-input>
-        </ion-item>
+          <ion-item>
+              <ion-label stacked>Apellidos</ion-label>
+              <ion-input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="User.Apellido"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Email" [(ngModel)]="User.Email"></ion-input>
-        </ion-item>
+          <ion-item>
+              <ion-label stacked>Email</ion-label>
+              <ion-input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="User.Email"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <p ion-text color="first1" style="margin: 0; padding: 0;" >Sin 0 ni 15</p>
-          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Telefono" [(ngModel)]="User.Telefono"></ion-input>
-        </ion-item>
-      </ion-list>
+          <ion-label stacked style="color:#AAA">Telefono (sin 0 en el prefijo ni 15 en el número)</ion-label>
+          <ion-grid style="padding:0px">
+              <ion-row>
+                  <ion-col col-5>
+                    <ion-select [(selectOptions)]="alertOptions" [(ngModel)]="User.TelCodigo">
+                      <ion-option value="+93">AFG(+93)</ion-option>
+                      <ion-option value="+355">ALB(+355)</ion-option>
+                      <ion-option value="+49">DEU(+49)</ion-option>
+                      <ion-option value="+213">DZA(+213)</ion-option>
+                      <ion-option value="+376">AND(+376)</ion-option>
+                      <ion-option value="+244">AGO(+244)</ion-option>
+                      <ion-option value="+672">ATA(+672)</ion-option>
+                      <ion-option value="+599">ANT(+599)</ion-option>
+                      <ion-option value="+966">SAU(+966)</ion-option>
+                      <ion-option value="+54">ARG(+54)</ion-option>
+                      <ion-option value="+374">ARM(+374)</ion-option>
+                      <ion-option value="+297">ABW(+297)</ion-option>
+                      <ion-option value="+61">AUS(+61)</ion-option>
+                      <ion-option value="+43">AUT(+43)</ion-option>
+                      <ion-option value="+994">AZE(+994)</ion-option>
+                      <ion-option value="+32">BEL(+32)</ion-option>
+                      <ion-option value="+973">BHR(+973)</ion-option>
+                      <ion-option value="+880">BGD(+880)</ion-option>
+                      <ion-option value="+501">BLZ(+501)</ion-option>
+                      <ion-option value="+229">BEN(+229)</ion-option>
+                      <ion-option value="+975">BTN(+975)</ion-option>
+                      <ion-option value="+375">BLR(+375)</ion-option>
+                      <ion-option value="+95">MMR(+95)</ion-option>
+                      <ion-option value="+591">BOL(+591)</ion-option>
+                      <ion-option value="+387">BIH(+387)</ion-option>
+                      <ion-option value="+267">BWA(+267)</ion-option>
+                      <ion-option value="+55">BRA(+55)</ion-option>
+                      <ion-option value="+673">BRN(+673)</ion-option>
+                      <ion-option value="+359">BGR(+359)</ion-option>
+                      <ion-option value="+226">BFA(+226)</ion-option>
+                      <ion-option value="+257">BDI(+257)</ion-option>
+                      <ion-option value="+238">CPV(+238)</ion-option>
+                      <ion-option value="+855">KHM(+855)</ion-option>
+                      <ion-option value="+237">CMR(+237)</ion-option>
+                      <ion-option value="+1">CAN(+1) </ion-option>
+                      <ion-option value="+235">TCD(+235)</ion-option>
+                      <ion-option value="+56">CHL(+56)</ion-option>
+                      <ion-option value="+86">CHN(+86)</ion-option>
+                      <ion-option value="+357">CYP(+357)</ion-option>
+                      <ion-option value="+39">VAT(+39)</ion-option>
+                      <ion-option value="+57">COL(+57)</ion-option>
+                      <ion-option value="+269">COM(+269)</ion-option>
+                      <ion-option value="+242">COG(+242)</ion-option>
+                      <ion-option value="+243">COD(+243)</ion-option>
+                      <ion-option value="+850">PRK(+850)</ion-option>
+                      <ion-option value="+82">KOR(+82)</ion-option>
+                      <ion-option value="+225">CIV(+225)</ion-option>
+                      <ion-option value="+506">CRI(+506)</ion-option>
+                      <ion-option value="+385">HRV(+385)</ion-option>
+                      <ion-option value="+53">CUB(+53)</ion-option>
+                      <ion-option value="+45">DNK(+45)</ion-option>
+                      <ion-option value="+593">ECU(+593)</ion-option>
+                      <ion-option value="+20">EGY(+20)</ion-option>
+                      <ion-option value="+503">SLV(+503)</ion-option>
+                      <ion-option value="+971">ARE(+971)</ion-option>
+                      <ion-option value="+291">ERI(+291)</ion-option>
+                      <ion-option value="+421">SVK(+421)</ion-option>
+                      <ion-option value="+386">SVN(+386)</ion-option>
+                      <ion-option value="+34">ESP(+34)</ion-option>
+                      <ion-option value="+1">USA(+1) </ion-option>
+                      <ion-option value="+372">EST(+372)</ion-option>
+                      <ion-option value="+251">ETH(+251)</ion-option>
+                      <ion-option value="+63">PHL(+63)</ion-option>
+                      <ion-option value="+358">FIN(+358)</ion-option>
+                      <ion-option value="+679">FJI(+679)</ion-option>
+                      <ion-option value="+33">FRA(+33)</ion-option>
+                      <ion-option value="+241">GAB(+241)</ion-option>
+                      <ion-option value="+220">GMB(+220)</ion-option>
+                      <ion-option value="+995">GEO(+995)</ion-option>
+                      <ion-option value="+233">GHA(+233)</ion-option>
+                      <ion-option value="+350">GIB(+350)</ion-option>
+                      <ion-option value="+30">GRC(+30)</ion-option>
+                      <ion-option value="+299">GRL(+299)</ion-option>
+                      <ion-option value="+502">GTM(+502)</ion-option>
+                      <ion-option value="+224">GIN(+224)</ion-option>
+                      <ion-option value="+240">GNQ(+240)</ion-option>
+                      <ion-option value="+245">GNB(+245)</ion-option>
+                      <ion-option value="+592">GUY(+592)</ion-option>
+                      <ion-option value="+509">HTI(+509)</ion-option>
+                      <ion-option value="+504">HND(+504)</ion-option>
+                      <ion-option value="+852">HKG(+852)</ion-option>
+                      <ion-option value="+36">HUN(+36)</ion-option>
+                      <ion-option value="+91">IND(+91)</ion-option>
+                      <ion-option value="+62">IDN(+62)</ion-option>
+                      <ion-option value="+98">IRN(+98)</ion-option>
+                      <ion-option value="+964">IRQ(+964)</ion-option>
+                      <ion-option value="+353">IRL(+353)</ion-option>
+                      <ion-option value="+44">IMN(+44)</ion-option>
+                      <ion-option value="+61">CXR(+61)</ion-option>
+                      <ion-option value="+354">ISL(+354)</ion-option>
+                      <ion-option value="+61">CCK(+61)</ion-option>
+                      <ion-option value="+682">COK(+682)</ion-option>
+                      <ion-option value="+298">FRO(+298)</ion-option>
+                      <ion-option value="+960">MDV(+960)</ion-option>
+                      <ion-option value="+500">FLK(+500)</ion-option>
+                      <ion-option value="+692">MHL(+692)</ion-option>
+                      <ion-option value="+870">PCN(+870)</ion-option>
+                      <ion-option value="+677">SLB(+677)</ion-option>
+                      <ion-option value="+972">ISR(+972)</ion-option>
+                      <ion-option value="+39">ITA(+39)</ion-option>
+                      <ion-option value="+81">JPN(+81)</ion-option>
+                      <ion-option value="+962">JOR(+962)</ion-option>
+                      <ion-option value="+7">KAZ(+7) </ion-option>
+                      <ion-option value="+254">KEN(+254)</ion-option>
+                      <ion-option value="+996">KGZ(+996)</ion-option>
+                      <ion-option value="+686">KIR(+686)</ion-option>
+                      <ion-option value="+965">KWT(+965)</ion-option>
+                      <ion-option value="+961">LBN(+961)</ion-option>
+                      <ion-option value="+856">LAO(+856)</ion-option>
+                      <ion-option value="+266">LSO(+266)</ion-option>
+                      <ion-option value="+371">LVA(+371)</ion-option>
+                      <ion-option value="+231">LBR(+231)</ion-option>
+                      <ion-option value="+218">LBY(+218)</ion-option>
+                      <ion-option value="+423">LIE(+423)</ion-option>
+                      <ion-option value="+370">LTU(+370)</ion-option>
+                      <ion-option value="+352">LUX(+352)</ion-option>
+                      <ion-option value="+52">MEX(+52)</ion-option>
+                      <ion-option value="+377">MCO(+377)</ion-option>
+                      <ion-option value="+853">MAC(+853)</ion-option>
+                      <ion-option value="+389">MKD(+389)</ion-option>
+                      <ion-option value="+261">MDG(+261)</ion-option>
+                      <ion-option value="+60">MYS(+60)</ion-option>
+                      <ion-option value="+265">MWI(+265)</ion-option>
+                      <ion-option value="+223">MLI(+223)</ion-option>
+                      <ion-option value="+356">MLT(+356)</ion-option>
+                      <ion-option value="+212">MAR(+212)</ion-option>
+                      <ion-option value="+230">MUS(+230)</ion-option>
+                      <ion-option value="+222">MRT(+222)</ion-option>
+                      <ion-option value="+262">MYT(+262)</ion-option>
+                      <ion-option value="+691">FSM(+691)</ion-option>
+                      <ion-option value="+373">MDA(+373)</ion-option>
+                      <ion-option value="+976">MNG(+976)</ion-option>
+                      <ion-option value="+382">MNE(+382)</ion-option>
+                      <ion-option value="+258">MOZ(+258)</ion-option>
+                      <ion-option value="+264">NAM(+264)</ion-option>
+                      <ion-option value="+674">NRU(+674)</ion-option>
+                      <ion-option value="+977">NPL(+977)</ion-option>
+                      <ion-option value="+505">NIC(+505)</ion-option>
+                      <ion-option value="+227">NER(+227)</ion-option>
+                      <ion-option value="+234">NGA(+234)</ion-option>
+                      <ion-option value="+683">NIU(+683)</ion-option>
+                      <ion-option value="+47">NOR(+47)</ion-option>
+                      <ion-option value="+687">NCL(+687)</ion-option>
+                      <ion-option value="+64">NZL(+64)</ion-option>
+                      <ion-option value="+968">OMN(+968)</ion-option>
+                      <ion-option value="+31">NLD(+31)</ion-option>
+                      <ion-option value="+92">PAK(+92)</ion-option>
+                      <ion-option value="+680">PLW(+680)</ion-option>
+                      <ion-option value="+507">PAN(+507)</ion-option>
+                      <ion-option value="+675">PNG(+675)</ion-option>
+                      <ion-option value="+595">PRY(+595)</ion-option>
+                      <ion-option value="+51">PER(+51)</ion-option>
+                      <ion-option value="+689">PYF(+689)</ion-option>
+                      <ion-option value="+48">POL(+48)</ion-option>
+                      <ion-option value="+351">PRT(+351)</ion-option>
+                      <ion-option value="+1">PRI(+1) </ion-option>
+                      <ion-option value="+974">QAT(+974)</ion-option>
+                      <ion-option value="+44">GBR(+44)</ion-option>
+                      <ion-option value="+236">CAF(+236)</ion-option>
+                      <ion-option value="+420">CZE(+420)</ion-option>
+                      <ion-option value="+250">RWA(+250)</ion-option>
+                      <ion-option value="+40">ROU(+40)</ion-option>
+                      <ion-option value="+7">RUS(+7) </ion-option>
+                      <ion-option value="+685">WSM(+685)</ion-option>
+                      <ion-option value="+590">BLM(+590)</ion-option>
+                      <ion-option value="+378">SMR(+378)</ion-option>
+                      <ion-option value="+508">SPM(+508)</ion-option>
+                      <ion-option value="+290">SHN(+290)</ion-option>
+                      <ion-option value="+239">STP(+239)</ion-option>
+                      <ion-option value="+221">SEN(+221)</ion-option>
+                      <ion-option value="+248">SYC(+248)</ion-option>
+                      <ion-option value="+232">SLE(+232)</ion-option>
+                      <ion-option value="+65">SGP(+65)</ion-option>
+                      <ion-option value="+963">SYR(+963)</ion-option>
+                      <ion-option value="+252">SOM(+252)</ion-option>
+                      <ion-option value="+94">LKA(+94)</ion-option>
+                      <ion-option value="+27">ZAF(+27)</ion-option>
+                      <ion-option value="+249">SDN(+249)</ion-option>
+                      <ion-option value="+46">SWE(+46)</ion-option>
+                      <ion-option value="+41">CHE(+41)</ion-option>
+                      <ion-option value="+597">SUR(+597)</ion-option>
+                      <ion-option value="+268">SWZ(+268)</ion-option>
+                      <ion-option value="+992">TJK(+992)</ion-option>
+                      <ion-option value="+66">THA(+66)</ion-option>
+                      <ion-option value="+886">TWN(+886)</ion-option>
+                      <ion-option value="+255">TZA(+255)</ion-option>
+                      <ion-option value="+670">TLS(+670)</ion-option>
+                      <ion-option value="+228">TGO(+228)</ion-option>
+                      <ion-option value="+690">TKL(+690)</ion-option>
+                      <ion-option value="+676">TON(+676)</ion-option>
+                      <ion-option value="+216">TUN(+216)</ion-option>
+                      <ion-option value="+993">TKM(+993)</ion-option>
+                      <ion-option value="+90">TUR(+90)</ion-option>
+                      <ion-option value="+688">TUV(+688)</ion-option>
+                      <ion-option value="+256">UGA(+256)</ion-option>
+                      <ion-option value="+598">URY(+598)</ion-option>
+                      <ion-option value="+998">UZB(+998)</ion-option>
+                      <ion-option value="+678">VUT(+678)</ion-option>
+                      <ion-option value="+58">VEN(+58)</ion-option>
+                      <ion-option value="+84">VNM(+84)</ion-option>
+                      <ion-option value="+681">WLF(+681)</ion-option>
+                      <ion-option value="+967">YEM(+967)</ion-option>
+                      <ion-option value="+253">DJI(+253)</ion-option>
+                      <ion-option value="+260">ZMB(+260)</ion-option>
+                      <ion-option value="+263">ZWE(+263)</ion-option>              
+                    </ion-select>
+                  </ion-col>
+                  <ion-col col-3>
+                    <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Pref." [(ngModel)]="User.TelPrefijo"></ion-input>
+                  </ion-col>
+                  <ion-col col-4>
+                    <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Número" [(ngModel)]="User.TelNumero"></ion-input>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+          <hr/>
+          <ion-label stacked style="color:#AAA">Documento</ion-label>
+          <ion-grid style="padding:0px">
+              <ion-row>
+                  <ion-col col-5>
+                    <ion-select [(selectOptions)]="alertOptions" [(ngModel)]="User.DocTipo">
+                      <ion-option value="DNI">DNI</ion-option>
+                      <ion-option value="LC">LC</ion-option>
+                      <ion-option value="LE">LE</ion-option>
+                      <ion-option value="OTRO">Otro</ion-option>
+                    </ion-select>
+                  </ion-col>
+                  <ion-col col-7>
+                    <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Número" [(ngModel)]="User.DocNumero"></ion-input>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+          <hr/>
+     </ion-list>
 
-      <div padding>
+      <div padding style="padding-top:0;padding-bottom:0">
         <button  ion-button color="first1"  block (click)="register()">
           Registrarse
         </button>

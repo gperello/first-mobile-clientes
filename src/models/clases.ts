@@ -5,10 +5,32 @@ export class Usuario {
     public UsuarioId:number
     public ClienteId:number
     public Nombre:string
-    public Telefono:string
+    public Apellido:string
+    public TelCodigo:string
+    public TelPrefijo:string
+    public TelNumero:string
+    public DocNumero:string
+    public DocTipo:string
     public Email:string
-    public ClienteNombre:string
-    public CtaCte:boolean
+    public MercadoPagoId:string
+    public Foto:string
+    public Actualiza:boolean
+    public Clientes:Array<Cliente>
+    public Tarjetas:Array<Tarjeta>
+}
+export class Cliente{
+    public ClienteId:number
+    public Nombre:string
+}
+export class Tarjeta{
+    public Id:number
+    public Bin:string
+    public Nombre:string
+    public PaymentMethodId:string
+    public PaymentMethodType:string
+    public UltimosCuatroDigitos:string
+    public CapturaDiferida:string
+    public Importe:string
 }
 export class ViajeList
 {
@@ -51,6 +73,8 @@ export class Viaje
     public Total:string
     public TipoMovilId:number
     public Observaciones:string
+    public Calificado:boolean
+    public DescuentoEfectivo:number
 }
 
 export class CalculoDeViaje
@@ -59,10 +83,8 @@ export class CalculoDeViaje
     public PosicionOrigen:string
     public PosicionDestino:string
     public Km:number
-    public FormaPagoId:number
     public TipoMovilId:number
     public Regreso:boolean
-    public Intermedios:boolean
 }
 
 export class TarifaCalculada
@@ -71,6 +93,7 @@ export class TarifaCalculada
     public TarifaNombre:string
     public Importe:string
     public Espera:string
+    public DescuentoEfectivo:number
 }
 
 export class Chofer
@@ -79,8 +102,16 @@ export class Chofer
     public Nombre:string
     public Vehiculo:string
     public CalificacionChofer:number
-    public ClificacionMovil:number
+    public CalificacionMovil:number
     public UltimaPosicion:string
-    public UrlFoto:string
     public Distancia:string
+    public Telefono:string
+    public FotoMovil:string
+    public FotoChofer:string
+}
+
+export class Direccion {
+    public Cantidad:number
+    public Direccion:string
+    public Posicion:string
 }

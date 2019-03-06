@@ -15,23 +15,24 @@
           <img src="assets/img/first-logo.png"/>
         </p>
         <p ion-text color="dark" style="font-weight: bold" >Servicio de transporte de personas</p>
-        <p ion-text color="first1" >validacion de codigo y contraseña</p>
-        <p ion-text color="secondary" >el codigo te llega por mail o sms</p>
+        <p ion-text color="first1" >finalizar registro</p>
+        <p ion-text color="secondary" >crear contraseñas</p>
       </div>
 
       <!-- Login form -->
       <ion-list class="list-form" padding>
 
         <ion-item>
-          <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Codigo" [(ngModel)]="codigo"></ion-input>
+          <ion-label stacked>Email</ion-label>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" readonly [(ngModel)]="User.Email"></ion-input>
         </ion-item>
-
         <ion-item>
-          <ion-input type="password" [ngModelOptions]="{standalone: true}" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
+          <ion-label stacked>Contraseña</ion-label>
+          <ion-input type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="password"></ion-input>
         </ion-item>
-
         <ion-item>
-          <ion-input type="password" [ngModelOptions]="{standalone: true}" placeholder="Rep. Contraseña" [(ngModel)]="reppassword"></ion-input>
+          <ion-label stacked>Repetir contraseña</ion-label>
+          <ion-input type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="reppassword"></ion-input>
         </ion-item>
 
       </ion-list>

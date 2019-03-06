@@ -4,6 +4,8 @@ import {LoginPage} from '../login/login';
 import {HomePage} from "../home/home";
 import { Usuario } from '../../models/clases';
 import { CustomServices } from '../../services/custom.services';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { CambiarClavePage } from '../cambiar.clave/cambiar.clave';
 
 /*
  Generated class for the RegisterPage page.
@@ -19,21 +21,22 @@ export class RegisterPage {
   User:Usuario = new Usuario();
 
   constructor(public nav:NavController, private service:CustomServices) {
+    this.User.TelCodigo = "+54";
+    this.User.DocTipo = "DNI";
+    this.User.Actualiza = true;
   }
 
   register() {
-    if(this.validar()) this.service.Register(this.User, (data) =>{
-      this.service.presentToast("Usuario creado, recibirá un código de validación por email o sms.");
-      setTimeout(() => {
-        this.nav.setRoot(LoginPage);
-      }, 3000);
-    }); 
+    if(this.validar()) {
+      this.nav.setRoot(CambiarClavePage, { User: this.User });
+    }
   }
 
   login() {
     this.nav.setRoot(LoginPage);
   }
   validar():boolean{
+    this.User.Email = this.User.Email.trim();
     if(this.User.Nombre.length < 6 || this.User.Nombre.length > 100){
       this.service.presentToast("El email ingresado no tiene el formato correcto (entre 6 y 100 caracteres).");
       return false
@@ -47,12 +50,20 @@ export class RegisterPage {
       this.service.presentToast("El email ingresado no tiene el formato correcto.");
       return false
     }
-    if(this.User.Telefono.length < 10 || this.User.Telefono.length > 15){
-      this.service.presentToast("El teléfono ingresado no tiene el formato correcto.");
+    if(this.User.TelPrefijo.length < 2 || this.User.TelPrefijo.length > 5){
+      this.service.presentToast("El prefijo del teléfono ingresado no tiene el formato correcto.");
+      return false
+    }
+    if(this.User.TelNumero.length < 6 || this.User.TelNumero.length > 10){
+      this.service.presentToast("El número de teléfono ingresado no tiene el formato correcto.");
       return false
     }
     return true;
   }
 
+  alertOptions = {
+    title: 'Selección',
+    subtitle: 'Seleccione una de las opciones'
+  };
 
 }

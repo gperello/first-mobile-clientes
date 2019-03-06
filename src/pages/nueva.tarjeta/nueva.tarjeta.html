@@ -1,0 +1,91 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="first" >
+      <button  ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>
+        <img src="assets/img/first-logo.png"/>
+      </ion-title>
+    </ion-navbar>
+    <ion-toolbar>
+      <ion-segment>
+        <h3 style="text-transform: uppercase;  margin: 0;  width: 100%;  text-align: center;font-size: 1.6rem;  font-weight: 500;">Nueva tarjeta</h3>
+      </ion-segment>
+  </ion-toolbar>
+  </ion-header>
+
+<ion-content padding class="profile">
+  <img src="https://imgmp.mlstatic.com/org-img/banners/ar/medios/468X60.jpg" title="MercadoPago - Medios de pago" alt="MercadoPago - Medios de pago"/>
+  <h3 style="text-transform: uppercase;  margin: 0;  width: 100%;  text-align: center;font-size: 1.6rem;  font-weight: 500;">Datos de la tarjeta</h3>
+  <form id="formcompleto" role="form">
+    <ion-list padding>
+      <ion-item>
+          <ion-label stacked>Nombres (tal cual está en la tarjeta)</ion-label>
+          <ion-input type="text"  data-checkout="cardholderName"></ion-input>
+      </ion-item>
+      <ion-label stacked style="color:#AAA">Documento</ion-label>
+      <ion-grid style="padding:0px">
+          <ion-row>
+              <ion-col col-5>
+                <input type="hidden" [ngModelOptions]="{standalone: true}" [(ngModel)]="tipoDoc" data-checkout="docType"/>
+                <ion-select [(selectOptions)]="alertOptions" [ngModelOptions]="{standalone: true}" [(ngModel)]="tipoDoc">
+                  <ion-option value="DNI">DNI</ion-option>
+                  <ion-option value="LC">LC</ion-option>
+                  <ion-option value="LE">LE</ion-option>
+                  <ion-option value="OTRO">Otro</ion-option>
+                </ion-select>
+                <hr/>
+              </ion-col>
+              <ion-col col-7>
+                <ion-input type="number" style="margin-top: 2px;" placeholder="Número" data-checkout="docNumber"></ion-input>
+                <hr/>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+      <ion-item>
+        <ion-label stacked>Número de tarjeta</ion-label>
+        <ion-input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" [brmasker]="{mask:'0000-0000-0000-0000', type: 'num', len:19}" data-checkout="cardNumber"></ion-input>
+      </ion-item>
+      <ion-grid style="padding:0px">
+        <ion-row>
+            <ion-col col-6>
+              <ion-label stacked style="color:#AAA">Mes</ion-label>
+              <ion-input type="number" data-checkout="cardExpirationMonth" placeholder="MM" [brmasker]="{mask:'00', type: 'num', len:2}"></ion-input>
+              <hr/>
+            </ion-col>
+            <ion-col col-6>
+              <ion-label stacked style="color:#AAA">Año</ion-label>
+              <ion-input type="number" data-checkout="cardExpirationYear" placeholder="AA" [brmasker]="{mask:'00', type: 'num', len:2}"></ion-input>
+              <hr/>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid style="padding:0px">
+        <ion-row>
+            <ion-col col-6>
+              <ion-label stacked style="color:#AAA">CVV</ion-label>
+              <ion-input type="number" data-checkout="securityCode" placeholder="XXXX" [brmasker]="{mask:'0000', type: 'num', len:4}"></ion-input>
+              <hr/>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+  </ion-list>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+      <ion-segment>
+        <button  ion-button color="first1" block (click)="registrartarjeta()">REGISTRAR TARJETA</button>
+      </ion-segment>
+      <ion-segment>
+        <button  ion-button color="dark" [hidden]="ocultarvolver()" block (click)="volver()">VOLVER</button>
+      </ion-segment>
+  </ion-toolbar>
+</ion-footer>
+

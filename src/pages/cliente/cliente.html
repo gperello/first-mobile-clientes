@@ -1,0 +1,62 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="first" >
+    <button  ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <img src="assets/img/first-logo.png"/>
+    </ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment>
+      <h3>Asociar cliente</h3>
+    </ion-segment>
+</ion-toolbar>
+</ion-header>
+
+<ion-content padding class="profile">
+  <p>Ingrese el CUIT y la clave proporcionada por la empresa a cuenta de la cual usted desea realizar viajes.</p>
+  <ion-list padding>
+    <ion-grid style="padding:0px">
+      <ion-row>
+        <ion-col col-6>
+          <ion-label style="margin: 13px;">CUIT</ion-label>
+          <hr/>
+        </ion-col>
+        <ion-col col-6>
+          <ion-input type="number" data-checkout="securityCode"  [ngModelOptions]="{standalone: true}" [(ngModel)]="Cuit" [brmasker]="{mask:'00000000000', type: 'num', len:11}"></ion-input>
+          <hr/>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid style="padding:0px">
+      <ion-row>
+        <ion-col col-6>
+          <ion-label style="margin: 13px;">Clave</ion-label>
+          <hr/>
+        </ion-col>
+        <ion-col col-6>
+          <ion-input type="number" data-checkout="securityCode"  [ngModelOptions]="{standalone: true}" [(ngModel)]="Clave" [brmasker]="{mask:'000000', type: 'num', len:4}"></ion-input>
+          <hr/>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>
+<ion-footer>
+<ion-toolbar>
+    <ion-segment>
+      <button  ion-button color="first1" block (click)="registrar()">ASOCIAR</button>
+    </ion-segment>
+    <ion-segment>
+      <button  ion-button color="dark" [hidden]="ocultarvolver()" block (click)="volver()">VOLVER</button>
+    </ion-segment>
+</ion-toolbar>
+</ion-footer>
+

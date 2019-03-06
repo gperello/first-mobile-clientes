@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from '../login/login';
-import {HomePage} from "../home/home";
 import { CambiarClavePage } from '../cambiar.clave/cambiar.clave';
-import { SocialSharing } from '@ionic-native/social-sharing';
 import { CustomServices } from '../../services/custom.services';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /*
  Generated class for the RegisterPage page.
@@ -17,16 +16,13 @@ import { CustomServices } from '../../services/custom.services';
   templateUrl: 'enviar.codigo.html'
 })
 export class EnviarCodigoPage {
-  telefono:string;
-  codigo:string
-  constructor(public nav:NavController, private params:NavParams,private service: CustomServices) {
-        this.codigo = this.params.data.Token;
-        this.telefono = this.params.data.Telefono;
+  Email:string;
+  constructor(public nav:NavController, public fb:AngularFireAuth,private service: CustomServices) {
   }
 
-  enviarcodigo() {
-    this.service.SendCode(this.codigo, this.telefono, (data) => {
-      this.nav.push(CambiarClavePage);
+  enviaremail() {
+    this.fb.auth.sendPasswordResetEmail(this.Email).then((reason)=>{
+        this.service.showAlert("Email de recuperación enviado","Revise su casilla de correo electr para cambiar su contraseña.")
     });
   }
 

@@ -1,0 +1,97 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="first" >
+      <button  ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>
+        <img src="assets/img/first-logo.png"/>
+      </ion-title>
+    </ion-navbar>
+    <ion-toolbar>
+      <ion-segment>
+        <h3>viaje finalizado</h3>
+      </ion-segment>
+  </ion-toolbar>
+  </ion-header>
+
+
+<ion-content padding>
+    <ion-list padding>
+        <ion-item>
+            <ion-label stacked class="labelfirst">Reserva</ion-label>
+            <ion-label class="prewarp texto">{{Viaje.Reserva}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked class="labelfirst">Hora</ion-label>
+            <ion-label class="prewarp texto">{{Viaje.FechaHora}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-label stacked class="labelfirst">Movil</ion-label>
+            <ion-label class="prewarp texto">{{Chofer.Vehiculo}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked class="labelfirst">Chofer</ion-label>
+            <ion-label class="prewarp texto">{{Chofer.Nombre}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked class="labelfirst">Origen</ion-label>
+            <ion-label class="prewarp texto">{{Viaje.Origen}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked class="labelfirst">Destino</ion-label>
+            <ion-label class="prewarp texto">{{Viaje.Destino}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Viaje</ion-label>
+            <ion-label item-end style="text-align:right">{{Viaje.ImporteKm}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Espera</ion-label>
+            <ion-label item-end style="text-align:right">{{Viaje.ImporteEspera}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Peajes</ion-label>
+            <ion-label item-end style="text-align:right">{{Viaje.Peajes}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Estacionamiento</ion-label>
+            <ion-label item-end style="text-align:right">{{Viaje.Estacionamiento}}</ion-label>
+        </ion-item>
+        <ion-item style="font-weight: bold;">
+            <ion-label>TOTAL</ion-label>
+            <ion-label item-end style="text-align:right">{{Viaje.Total}}</ion-label>
+        </ion-item>
+   </ion-list>
+
+</ion-content>
+<ion-footer [hidden]="Viaje.Calificado">
+    <ion-toolbar padding style="text-align: center;">
+        <ion-label>Califica al móvil</ion-label>
+        <ionic3-star-rating 
+            activeIcon = "ios-star"
+            defaultIcon = "ios-star-outline"
+            activeColor = "#488aff" 
+            defaultColor = "#f4f4f4"
+            readonly="false"
+            [rating]="CalificacionMovil">
+        </ionic3-star-rating>
+        <ion-label>Califica al chofer</ion-label>
+        <ionic3-star-rating 
+            activeIcon = "ios-star"
+            defaultIcon = "ios-star-outline"
+            activeColor = "#488aff" 
+            defaultColor = "#f4f4f4"
+            readonly="false"
+            [rating]="CalificacionChofer">
+        </ionic3-star-rating>
+        <button  ion-button color="primary" block (click)="calificar()">CALIFICAR</button>
+    </ion-toolbar>
+  </ion-footer>
+  

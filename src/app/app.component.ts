@@ -1,16 +1,19 @@
 import {Component} from '@angular/core';
 import {Platform} from 'ionic-angular';
 import {ViewChild} from '@angular/core';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
-
-// import pages
 import {LoginPage} from '../pages/login/login';
 import {HomePage} from '../pages/home/home';
-import {HistoryPage} from '../pages/history/history';
-import { PlacesPage } from '../pages/places/places';
 import { ProfilePage } from '../pages/profile/profile';
 import { CustomServices } from '../services/custom.services';
+import { Events } from 'ionic-angular';
+import { Usuario } from '../models/clases';
+import { TarjetasPage } from '../pages/tarjetas/tarjetas';
+import { ContactPage } from '../pages/contact/contact';
+import { ClientePage } from '../pages/cliente/cliente';
+import { ViajePedidoPage } from '../pages/viaje.pedido/viaje.pedido';
+import { ViajeEnCaminoPage } from '../pages/viaje.encamino/viaje.encamino';
+import { ViajeEnCursoPage } from '../pages/viaje.encurso/viaje.encurso';
+import { ViajeFinalizadoPage } from '../pages/viaje.finalizado/viaje.finalizado';
 
 @Component({
   templateUrl: 'app.html',
@@ -19,7 +22,10 @@ import { CustomServices } from '../services/custom.services';
   }
 })
 export class MyApp {
-  public Usuario:string;
+  public Usuario:any = {
+    Nombre: "",
+    Foto: ""
+  };
 
   public rootPage: any;
 
@@ -32,46 +38,83 @@ export class MyApp {
       count: 0,
       component: HomePage
     },
-    {
-      title: 'Historial',
+    /* {
+      title: 'Mis Viajes',
       icon: 'list',
       count: 0,
       component: HistoryPage
+    }, */
+    {
+      title: 'Mis Tarjetas',
+      icon: 'card',
+      count: 0,
+      component: TarjetasPage
     },
     {
-      title: 'Ubicaciones',
-      icon: 'map',
+      title: 'Asociar Cuenta',
+      icon: 'done-all',
       count: 0,
-      component: PlacesPage
+      component: ClientePage
     },
     {
       title: 'Perfil',
-      icon: 'ios-contact-outline',
+      icon: 'person',
       count: 0,
       component: ProfilePage
     },
+    {
+      title: 'Contacto',
+      icon: 'ios-contact-outline',
+      count: 0,
+      component: ContactPage
+    },
   ];
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private service:CustomServices) {
+  constructor(public events:Events, 
+    private service:CustomServices) {
     this.rootPage = HomePage;
     if(this.service.UserData() == null) this.rootPage = LoginPage;
-    else this.Usuario = this.service.UserData().Nombre;
-
-    platform.ready().then(() => {
-      statusBar.styleDefault();
-      splashScreen.hide();
-    });
+    else{
+      this.Usuario.Nombre = this.service.UserData().Nombre + " " + this.service.UserData().Apellido;
+      this.Usuario.Foto = this.service.UserData().Foto;
+      this.events.subscribe('username:changed', (user:Usuario) => {
+        if(user != null) {
+          this.Usuario.Nombre = this.service.UserData().Nombre + " " + this.service.UserData().Apellido;
+          this.Usuario.Foto = this.service.UserData().Foto;
+        };
+      });
+      this.events.subscribe('onnotification:changed', (viaje) => {
+        this.getviaje(viaje);
+      });
+      this.service.RegistracionFcm();
+    }
   }
 
   openPage(page) {
     this.nav.setRoot(page.component);
   }
-
   logout(){
     this.service.Logout((data) => {
       this.nav.setRoot(LoginPage);
     });
   }
+  getviaje(item){
+    localStorage.setItem("reserva_actual", item.Reserva);
+    switch(item.EstadoId){
+      case 2:
+        this.nav.push(ViajePedidoPage);
+        break;
+      case 3:
+        this.nav.push(ViajeEnCaminoPage);
+        break;
+      case 5:
+        this.nav.push(ViajeEnCursoPage);
+        break;
+      case 7:
+        this.nav.push(ViajeFinalizadoPage);
+        break;
+    }
+}
 }
 
 

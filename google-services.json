@@ -39,37 +39,6 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:644865268568:android:ca36354c10f8a28a",
-        "android_client_info": {
-          "package_name": "first.mobile"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "644865268568-vc7s9d2403qemfplpuqhslcsbdb38o0g.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBmac0X3_wzSdP9WS54bjBEe-wUQLlSTfY"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:644865268568:android:111e5a706d265631",
         "android_client_info": {
           "package_name": "first.moviles.ar"

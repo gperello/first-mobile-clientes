@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
 import { AlertController, Loading, LoadingController, ToastController  } from 'ionic-angular';
-import { Usuario } from '../models/clases';
-import { Geolocation, Geoposition } from '@ionic-native/geolocation';
+import { Usuario, Direccion } from '../models/clases';
 import { Http, Headers } from '@angular/http';
 declare var google;
 
 @Injectable()
 export class BaseService {
     public loader:Loading;
-    constructor(protected http:Http, protected alert:AlertController, 
-        protected geolocation: Geolocation, protected loadingService:LoadingController,protected toastCtrl: ToastController) {
+    constructor(protected http:Http, protected alert:AlertController, protected loadingService:LoadingController,protected toastCtrl: ToastController) {
         this.loader = this.loadingService.create({ content: "Aguarde..." });
     }
   //CONSTANTES
-  BASE_URL = "http://186.122.149.228:8081/";
+  BASE_URL = "https://servicios.firstsa.net/";
   //BASE_URL = "http://localhost:16021/";
-  ASOCIAR_CLIENTE = "appcliente/asociarcliente/{0}/{1}";
+  ASOCIAR_CLIENTE = "appcliente/asociarcliente/{0}/{1}/{2}";
+  OBTENER_ESPERA = "appcliente/obtenerespera";
   CALCULAR_TARIFA = "appcliente/calculartarifa";
-  CALIFICAR_VIAJE = "appcliente/calificarviaje/{0}/{1}/{2}";
+  CALIFICAR_VIAJE = "appcliente/calificarviaje/{0}/{1}/{2}/{3}";
   CANCELAR_VIAJE = "appcliente/cancelarviaje/{0}/{1}";
+  GET_NUMERO_VIAJE = "appcliente/getnumeroviaje";
   GET_VIAJE = "appcliente/getviaje/{0}";
   GET_VIAJES = "appcliente/getviajes/{0}";
   GET_USUARIO = "appcliente/getusuario/{0}";
   REGISTRAR_USUARIO = "appcliente/registrarusuario";
   SAVE_VIAJE = "appcliente/saveviaje";
   REGISTRAR_FCM = "appcliente/registrarfcm";
-  GET_VIAJES_ENCURSO = "appcliente/getviajesencurso/{0}";
   GENERAR_CODIGO = "appcliente/generarcodigo/{0}";
   CAMBIAR_PASSWORD = "appcliente/cambiarclave/{0}/{1}";
-  LOGIN = "appcliente/login/{0}/{1}";
+  LOGIN = "appcliente/getusuario";
   LOGOUT = "appcliente/logout/{0}";
   ENVIAR_CODIGO = "appcliente/enviarcodigo/{0}/{1}";
+
+  GUARDAR_TARJETA = "appcliente/guardartarjeta/{0}/{1}";
+  ELIMINAR_TARJETA = "appcliente/eliminartarjeta/{0}/{1}";
+  GUARDAR_PAGO = "appcliente/registrarpago";
+
 
   //HTTP
   ExecuteGetService(url: string, args?:Array<any>, onsuccess?:(data:any) => void, onerror?:(data) => void):void {
@@ -100,7 +104,14 @@ export class BaseService {
   }
    OnNotAuthenticate:() => void;     
   
-  //USER
+   //USER
+  public GetValidandoUsuario():boolean{
+    return localStorage.getItem("validando_usuario") && localStorage.getItem("validando_usuario") == "true";
+  }
+  public SetValidandoUsuario(value:string):void{
+    if(!value)localStorage.removeItem("validando_usuario");
+    else localStorage.setItem("validando_usuario", value);
+  }
   public UserData():Usuario{
     return localStorage.getItem("datos_de_cliente") == null ? null : JSON.parse(localStorage.getItem("datos_de_cliente"));
   }
@@ -113,22 +124,44 @@ export class BaseService {
   public showAlert(title:string, mensaje:string, onconfirm?:() => void) {
     let alert = this.alert.create({
       title: title,
-      subTitle: mensaje,
+      message: mensaje,
       buttons: [{
         text: 'OK',
         handler: () => {
           if(onconfirm != null)onconfirm();
-        }
+        },
+        cssClass: 'alertCustomCss'
       }],
     });
     alert.present();
   }
+  public ShowConfirm(mensaje:string, onsuccess:() => void, onerror?:()=> void){
+    let method = this.alert.create({
+        title: "Atención",			
+        message: mensaje,
+        buttons: [
+            {
+                text: 'SI',
+                handler: () => {
+                    onsuccess();
+                }
+            },
+            {
+                text: 'NO',
+                handler: () => {
+                    if(onerror)onerror();
+                }
+            }
+        ]
+    });
+    method.present()
+  }
   //TOAtS
-  presentToast(message) {
+  presentToast(message, posicion = 'top', duracion = 3000) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 3000,
-      position: 'top'
+      duration: duracion,
+      position: posicion
     });
     toast.present();
   }
@@ -174,6 +207,7 @@ export class BaseService {
   }
 
   public getNumber(numero:any):number{
+    numero = numero.toString().replace("$ ", "")
     return parseFloat(numero.toString().replace(".", "").replace(",", "."))
   }
 
@@ -189,11 +223,11 @@ export class BaseService {
   public setColorEstado(estado):string{
       switch(estado){
         case 2:
-            return "agendado";
+            return "info";
         case 3:
-            return "aceptado"
+            return "danger";
         case 5:
-            return "encurso";
+            return "primary";
         case 7: case 8:
             return "dark";
         default:
@@ -212,6 +246,34 @@ export class BaseService {
       default:
           return "";
     }
+  }
+
+  public Direcciones():Array<Direccion>{
+    let arr:Array<Direccion> = localStorage.getItem("direcciones") == null ? null : JSON.parse(localStorage.getItem("direcciones"));
+    if(arr) arr = arr.sort((a,b) => {
+        return b.Cantidad - a.Cantidad;
+    });
+    return arr;
+  }
+
+  public InsertDireccion(direccion:Direccion):void{
+    let arr:Array<Direccion> = localStorage.getItem("direcciones") == null ? null : JSON.parse(localStorage.getItem("direcciones"));
+    let existe:boolean = false;
+    if(arr){
+        for(var i in arr) {
+            if(arr[i].Direccion == direccion.Direccion){
+                arr[i].Cantidad++;
+                existe = true;
+                break;
+            }
+        };
+        if(!existe) arr.push(direccion);
+    }
+    else{
+        arr = new Array<Direccion>();
+        arr.push(direccion);
+    }
+    localStorage.setItem("direcciones", JSON.stringify(arr))
   }
 
 

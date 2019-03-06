@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
+import { Chofer } from '../../models/clases';
 /*
   Generated class for the DriverPage page.
 
@@ -11,12 +12,13 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'conductor.html'
 })
 export class ConductorPage {
-  public driver:any;
+  private Chofer:Chofer;
+  private estilomovil = "";
 
-  constructor(public nav: NavController) {
-    // get driver info
+  constructor(public nav: NavController, public params: NavParams, public events: Events) {
+    this.Chofer = this.params.data.Chofer;
+    this.estilomovil = "url(" + this.Chofer.FotoMovil + ")";
   }
 
-  track() {
-  }
+  
 }

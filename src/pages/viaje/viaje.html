@@ -1,0 +1,70 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="first" >
+    <button  ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <img src="assets/img/first-logo.png"/>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- Show map here -->
+  <div #map id="map" style="height: 100%;width: 100%;padding-bottom: 3em"></div>
+  <div id="gmap" style="display: none"></div>
+
+
+   <!--Choose pickup and drop off places-->
+  <ion-list class="map-overlay list-full-border">
+      <ion-item>
+        <div (click)="showOrigen()">
+          <span class="label" ion-text color="secondary" >Origen</span>
+          <div class="bold prewarp"><p>{{Viaje.Origen}}</p></div>
+        </div>
+        <button ion-button color="dark" round outline item-end (click)="refrescar()"><ion-icon name="refresh"></ion-icon></button>
+      </ion-item>
+      <ion-item (click)="showDestino()">
+        <span class="label" ion-text color="secondary" >Destino</span>
+        <div class="bold prewarp">{{Viaje.Destino}}</div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Viaje con regreso</ion-label>
+        <ion-toggle color="primary" [(ngModel)]="Viaje.Regreso" (ionChange)="calcularTarifa()"></ion-toggle>
+      </ion-item>
+      <ion-item [hidden]="OcultarKm">
+        <ion-label>
+          {{GetKm}} Km - {{GetDuracion}} Min.
+        </ion-label>
+        <ion-label class="importe" item-end>
+          {{ Viaje.ImporteKm }} <span style="font-size:10px">(est.)</span>
+        </ion-label>
+      </ion-item>
+
+  </ion-list>
+  <ion-fab bottom right style="margin-bottom:3em;margin-right: 10px;">
+    <button ion-fab color="first1" (click)="getResumen()">
+      <ion-icon name="send"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <!-- Booking information -->
+  <div class="booking-info">
+       
+    <ion-grid no-padding>
+      <ion-row class="vehicles" text-center>
+        <ion-col class="item-vehicle" *ngFor="let vehicle of vehicles" [ngClass]="{'active': vehicle.active}"
+                 (click)="toggleVehicle(vehicle.id)">
+          <span>{{ vehicle.name }}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

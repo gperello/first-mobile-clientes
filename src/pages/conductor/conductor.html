@@ -13,36 +13,55 @@
       <img src="assets/img/first-logo.png"/>
     </ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-segment>
+      <h3>Datos del móvil y chofer</h3>
+    </ion-segment>
+</ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="driver-top dark-bg light" text-center>
-    <span>Un movil está en camino</span>
+  <div class="driver-top dark-bg light" text-center [ngStyle]="{'background-image': estilomovil, 'background-repeat': 'no-repeat', 'background-position': 'center top' }">
   </div>
 
   <div class="driver-info rlt" text-center>
 
     <div class="driver-picture" padding-bottom>
-      <img class="circle" src="assets/img/thumb/adam.jpg" alt=""/>
+      <img class="circle" [src]="Chofer.FotoChofer"/>
     </div>
 
-    <div no-margin>Un vehiculo Chevrolet Onix Rojo [NHO 238]</div>
-    <h3 no-margin ion-text color="primary" >Conducido por Gustavo Perello</h3>
-    <div no-margin>está a {{ driver.distance }} minutos de su posición.</div>
-
-    <ion-grid class="driver-plate">
+    <h5 no-margin  color="first1">{{Chofer.Vehiculo}}</h5>
+    <h4 no-margin ion-text color="primary" >Conducido por {{Chofer.Nombre}}</h4>
+    <div>
+    </div> 
+    <ion-grid>
       <ion-row>
         <ion-col>
-          <div class="text-hint">Calificacion del vehiculo</div>
-          <strong margin-top>{{ driver.plate }}</strong>
+          <div>Calificacion del vehiculo</div>
+          <ionic3-star-rating
+              activeIcon = "ios-star"
+              defaultIcon = "ios-star-outline"
+              activeColor = "#488aff" 
+              defaultColor = "#f4f4f4"
+              readonly="false"
+              [rating]="Chofer.CalificacionMovil">
+          </ionic3-star-rating>
         </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col>
-          <div class="text-hint">Calificación del chofer</div>
-          <strong>Cash</strong>
+          <div>Calificación del chofer</div>
+          <ionic3-star-rating 
+              activeIcon = "ios-star"
+              defaultIcon = "ios-star-outline"
+              activeColor = "#488aff" 
+              defaultColor = "#f4f4f4"
+              readonly="true"
+              [rating]="Chofer.CalificacionChofer">
+          </ionic3-star-rating>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <div ion-button block color="primary" (click)="track()">SIG.</div>
   </div>
 </ion-content>

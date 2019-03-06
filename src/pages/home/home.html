@@ -15,52 +15,35 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <!-- Show map here -->
-  <div #map id="map" style="height: 100%;width: 100%"></div>
-
-
-   <!--Choose pickup and drop off places-->
-  <ion-list class="map-overlay list-full-border">
-      <ion-item (click)="showOrigen(this)">
-        <span class="label" ion-text color="secondary" >ORIGEN</span>
-        <div class="bold prewarp"><p>{{Viaje.Origen}}</p></div>
-      </ion-item>
-      <ion-item (click)="showDestino(this)">
-        <span class="label" ion-text color="secondary" >DESTINO</span>
-        <div class="bold prewarp">{{Viaje.Destino}}</div>
-      </ion-item>
-      <ion-item>
-        <ion-label>VIAJE CON REGRESO</ion-label>
-        <ion-toggle color="primary" [(ngModel)]="Viaje.Regreso" (click)="changeRegreso()"></ion-toggle>
-      </ion-item>
-  </ion-list>
-  <ion-fab bottom right style="margin-bottom:100px;margin-right: 10px;">
-    <button ion-fab color="first1" (click)="getResumen()">
-      <ion-icon name="send"></ion-icon>
-    </button>
-  </ion-fab>
-
-  <!-- Booking information -->
-  <div class="booking-info">
-       
-    <ion-grid no-padding>
-      <ion-row [hidden]="OcultarKm">
-        <ion-col class="">
-          {{GetKm}} Km - {{GetDuracion}} Min. aprox.
-        </ion-col>
-        <ion-col class="importe">
-          Aprox.: {{ Viaje.ImporteKm }}
-        </ion-col>
-      </ion-row>
-      <ion-row class="vehicles" text-center>
-        <ion-col class="item-vehicle" *ngFor="let vehicle of vehicles" [ngClass]="{'active': vehicle.active}"
-                 (click)="toggleVehicle(vehicle.id)">
-          <img padding src="{{ vehicle.image }}" />
-          <span>{{ vehicle.name }}</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-
+<ion-content style="background-image:url('https://firstsa.net/content/img/bg.jpg');background-size: 100% 100%">
+  <button ion-button style="float: right" color="light" round outline item-end small (click)="actualizar()"><ion-icon name="refresh"></ion-icon></button>
+  <ion-card style="margin-top:200px" (swipe)="actualizar()">
+    <ion-card-header>
+      <span>Tus Viajes</span>
+    </ion-card-header>
+    <ion-card-content>
+      <p style="text-align: center;" [hidden]="ocultarmensaje()">No hay viajes pendientes</p>
+      <button ion-item (click)="getviaje(item)" *ngFor="let item of Viajes">
+        <h3>{{item.Reserva}} - {{item.FechaHora}} - <ion-badge [color]="setcolor(item.EstadoId)">{{item.Estado}}</ion-badge></h3>
+        <p style="display:block">{{item.Origen}}</p>
+      </button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-segment>
+      <button ion-button block icon-end color="first1" (click)="nuevoviaje()">
+        PEDIR UN MOVIL
+        <ion-icon name="pin"></ion-icon>
+      </button>
+    </ion-segment>
+    <ion-segment [hidden]="OcultarVersion"> 
+      <button ion-button block icon-end color="primary" (click)="GoToVersion()">
+        ACTUALIZAR VERSION
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </button>
+    </ion-segment>
+</ion-toolbar>
+</ion-footer>
+
